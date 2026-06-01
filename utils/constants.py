@@ -22,7 +22,6 @@ EVENTS = [
     {"date": "2020-06-15", "event": "Galwan Valley Clash", "category": "India-China", "channel": "Direct", "severity": "High"},
     {"date": "2022-02-24", "event": "Russia-Ukraine War", "category": "Global", "channel": "Supply Chain", "severity": "Critical"},
     {"date": "2023-10-07", "event": "Israel-Hamas War", "category": "Middle East", "channel": "Energy", "severity": "Medium"},
-    {"date": "2025-05-07", "event": "Operation Sindoor", "category": "India-Pak", "channel": "Direct", "severity": "High"},
 ]
 
 # Tickers to query via yfinance
