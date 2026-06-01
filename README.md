@@ -1,49 +1,50 @@
-# IndiaShield 🛡️
-### Strategic Defence Intelligence & Security Analytics Platform
+# IndiaShield
+### Strategic Defence Intelligence and Security Analytics Platform
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://indiashield-h4uhwhqbpkaf9tibxlcefp.streamlit.app/)
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B.svg)](https://streamlit.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## 🔗 Live Deployment
-Deploy live on Streamlit Cloud: **[Insert Your Deployed Streamlit URL Here]**
+## Live Deployment
+To open the live interactive dashboard:
+* Click the "Streamlit App" button at the top of this document.
+* Or visit: [https://indiashield-h4uhwhqbpkaf9tibxlcefp.streamlit.app/](https://indiashield-h4uhwhqbpkaf9tibxlcefp.streamlit.app/)
 
 ---
 
-## 📝 Executive Summary
-**IndiaShield** is a professional-grade strategic intelligence dashboard designed to monitor and analyze India's defence ecosystem. By consolidating disparate datasets—ranging from international arms transfer records to national union budget spreadsheets and stock market indices—the platform provides policy analysts, security researchers, and strategic advisors with real-time, interactive data-driven insights.
+## Executive Summary
+IndiaShield is a professional-grade strategic intelligence dashboard designed to monitor and analyze India's defence ecosystem. By consolidating disparate datasets—ranging from international arms transfer records to national union budget spreadsheets and stock market indices—the platform provides policy analysts, security researchers, and strategic advisors with real-time, interactive data-driven insights.
 
 Through interactive visualization pipelines, IndiaShield maps 25 years of subcontinent military expenditures, dissects capital-vs-revenue allocation paradoxes, monitors absolute budget gaps between regional powers, and evaluates how domestic defence equities behave as market hedges during geopolitical border escalations.
 
 ---
 
-## 🚀 Core Features (Dashboard Modules)
+## Core Features (Dashboard Modules)
 
 The platform is organized into five functional modules accessible via the sidebar navigation:
 
-1. **🏠 Strategic Overview:** Renders a 24-year spend trajectory of India, dynamic global expenditure choropleths (world map), and five core high-level KPIs representing national ranking, expenditure-to-GDP ratios, and supply-chain risk scores.
-2. **💰 Budget Anatomy:** Visualizes India's Union Budget allocation trends (FY16 to FY25), showing the relationship between Revenue (operational costs) and Capital (modernisation & acquisition) allocations, capital utilisation indices, and DRDO R&D trends.
-3. **⚔️ Regional Arms Race:** Compare timeline trajectories (absolute budgets and % of GDP) dynamically for any combination of regional powers (India, China, Pakistan, USA, etc.) along with 10-year CAGR performance and a dynamic China-India spending gap tracker.
-4. **🎯 Import Vulnerability (SIDS):** Computes India's dependency score against global arms suppliers using a custom mathematical model. Features interactive tabs showing an **Arms Flow Sankey Pipeline** (volume flow from suppliers to weapon categories) and a **Radar Risk Fingerprint** mapping supplier vulnerability profiles. Includes a collapsible **Simulation Sandbox** to model geopolitical shifts.
-5. **📈 Market Intelligence:** Explores 6 Indian defence equities (HAL, BEL, BEML, Mazagon Dock, Cochin Shipyard, Bharat Dynamics) during escalation events (e.g. Galwan, Balakot) using event study cumulative returns, outperformance alpha bar charts, and historical price history overlays.
+1. **Strategic Overview:** Renders a 24-year spend trajectory of India, dynamic global expenditure choropleths (world map), and five core high-level KPIs representing national ranking, expenditure-to-GDP ratios, and supply-chain risk scores.
+2. **Budget Anatomy:** Visualizes India's Union Budget allocation trends (FY16 to FY25), showing the relationship between Revenue (operational costs) and Capital (modernisation & acquisition) allocations, capital utilisation indices, and DRDO R&D trends.
+3. **Regional Arms Race:** Compare timeline trajectories (absolute budgets and % of GDP) dynamically for any combination of regional powers (India, China, Pakistan, USA, etc.) along with 10-year CAGR performance and a dynamic China-India spending gap tracker.
+4. **Import Vulnerability (SIDS):** Computes India's dependency score against global arms suppliers using a custom mathematical model. Features interactive tabs showing an Arms Flow Sankey Pipeline (volume flow from suppliers to weapon categories) and a Radar Risk Fingerprint mapping supplier vulnerability profiles. Includes a collapsible Simulation Sandbox to model geopolitical shifts.
+5. **Market Intelligence:** Explores 6 Indian defence equities (HAL, BEL, BEML, Mazagon Dock, Cochin Shipyard, Bharat Dynamics) during escalation events (e.g. Galwan, Balakot) using event study cumulative returns, outperformance alpha bar charts, and historical price history overlays.
 
 ---
 
-## 🔬 The SIDS Metric Formulation
-The **Strategic Import Dependency Score (SIDS)** is a novel composite metric developed for IndiaShield that measures India's vulnerability to supply chain disruptions from individual arms suppliers:
+## SIDS Metric Formulation
+The Strategic Import Dependency Score (SIDS) is a novel composite metric developed for IndiaShield that measures India's vulnerability to supply chain disruptions from individual arms suppliers:
 
 $$SIDS = \frac{IC}{100} \times SSR \times (1 - GSS) \times \frac{1}{DSC} \times 100$$
 
-*   **Import Concentration ($IC$):** The percentage of total arms import volume (TIV) sourced from the supplier.
-*   **Single-Source Risk ($SSR$):** Measures platform dependency. A weighted score reflecting supplier lock-in (having $>60\%$ share in a critical weapon category = $1.0$, $>40\%$ = $0.6$, else $0.2$).
-*   **Geopolitical Stability ($GSS$):** Supplier reliability on a scale of $0.0$ to $1.0$ ($0.0$ = high sanction/embargo risk, $1.0$ = fully integrated ally).
-*   **Substitution Capacity ($DSC$):** Local indigenisation capacity to replace the supplier's technology ($0.1$ = irreplaceable / high-tech lock-in, $1.0$ = immediate domestic replacement).
+*   **Import Concentration (IC):** The percentage of total arms import volume (TIV) sourced from the supplier.
+*   **Single-Source Risk (SSR):** Measures platform dependency. A weighted score reflecting supplier lock-in (having >60% share in a critical weapon category = 1.0, >40% = 0.6, else 0.2).
+*   **Geopolitical Stability (GSS):** Supplier reliability on a scale of 0.0 to 1.0 (0.0 = high sanction/embargo risk, 1.0 = fully integrated ally).
+*   **Substitution Capacity (DSC):** Local indigenisation capacity to replace the supplier's technology (0.1 = irreplaceable / high-tech lock-in, 1.0 = immediate domestic replacement).
 
 ---
 
-## 📁 Repository Modular Structure
+## Repository Modular Structure
 This project is engineered using a modular, decoupled architecture rather than a single monolithic script:
 
 ```
@@ -74,19 +75,19 @@ IndiaShield/
 
 ---
 
-## 📊 Data & Robust Fallback Architecture
+## Data and Fallback Architecture
 The application runs on four consolidated data pipelines:
-1. **SIPRI Military Expenditure Database**
-2. **SIPRI Arms Transfers Database (TIV)**
-3. **Ministry of Finance (Union Budget of India)**
-4. **NSE Equities Data (Yahoo Finance)**
+1. SIPRI Military Expenditure Database
+2. SIPRI Arms Transfers Database (TIV)
+3. Ministry of Finance (Union Budget of India)
+4. NSE Equities Data (Yahoo Finance)
 
 > [!TIP]
 > **Production Resilience:** The data loader in `modules/data_loader.py` is equipped with a high-fidelity synthetic fallback generator. If the app is offline or the yfinance API hits rate limits, the loader automatically interpolates historical trends and generates daily pricing arrays to ensure all 5 pages render without crash.
 
 ---
 
-## 🛠️ Local Setup & Run
+## Local Setup and Run
 
 To clone and run this application locally:
 
@@ -108,8 +109,8 @@ To clone and run this application locally:
 
 ---
 
-## 💡 Strategic Insights Discovered
-*   **The Modernisation Paradox:** While total allocation grew 5×, the share of Capital Expenditure (modernisation & acquisitions) fell from **38.3%** in 2015 to **28.9%** in 2024, showing that manpower and pensions are squeezing acquisition power.
-*   **Critical Lock-in:** Russia remains India's most critical supply-chain vulnerability with a SIDS score of **72 (Critical)**. Sanctions post-2022 mean spare-parts lifecycles for air fleets ($68\%$ Russian) and tanks ($85\%$ Russian) face severe disruption without accelerated indigenisation.
-*   **Geopolitical Hedge Assets:** Indian defence equities (HAL, BEL) act as market hedges, generating average gains of **+23%** in the 30 days following border escalations while the Nifty 50 Index declines.
-*   **Indigenisation Gain:** Sourcing from domestic defence companies grew from **40%** to **65%** under the Make in India initiative between 2014 and 2024.
+## Key Strategic Insights
+*   **The Modernisation Paradox:** While total allocation grew 5x, the share of Capital Expenditure (modernisation & acquisitions) fell from 38.3% in 2015 to 28.9% in 2024, showing that manpower and pensions are squeezing acquisition power.
+*   **Critical Lock-in:** Russia remains India's most critical supply-chain vulnerability with a SIDS score of 72 (Critical). Sanctions post-2022 mean spare-parts lifecycles for air fleets (68% Russian) and tanks (85% Russian) face severe disruption without accelerated indigenisation.
+*   **Geopolitical Hedge Assets:** Indian defence equities (HAL, BEL) act as market hedges, generating average gains of +23% in the 30 days following border escalations while the Nifty 50 Index declines.
+*   **Indigenisation Gain:** Sourcing from domestic defence companies grew from 40% to 65% under the Make in India initiative between 2014 and 2024.
