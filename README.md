@@ -1,8 +1,8 @@
 # IndiaShield
 ### Strategic Defence Intelligence and Security Analytics Platform
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://indiashield-h4uhwhqbpkaf9tibxlcefp.streamlit.app/)
-[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
+[![Open in Streamlit](https://img.shields.io/badge/Open_in_Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://indiashield-h4uhwhqbpkaf9tibxlcefp.streamlit.app/)
+[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg?style=for-the-badge)](https://www.python.org/)
 
 ---
 
