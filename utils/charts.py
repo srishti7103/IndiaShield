@@ -1100,10 +1100,13 @@ def plot_arms_flow_sankey(df_transfers):
     Sankey diagram showing arms flow from Suppliers to Weapons Categories and to India's Arsenal.
     """
     try:
-        # Define nodes
-        label = ["Russia", "France", "USA", "Israel", "UK", "Others", 
-                 "Aircraft", "Submarines", "Missiles", "Tanks/AFV", "Ships", "Electronics", 
-                 "India's Arsenal"]
+        # Define nodes - matching raw database names
+        label_clean = ["Russia", "France", "USA", "Israel", "UK", "Others", 
+                       "Aircraft", "Submarines", "Missiles", "Tanks/AFV", "Ships", "Electronics", 
+                       "India's Arsenal"]
+        
+        # Bold and readable labels for Plotly display
+        label_display = [f"<b>{lbl}</b>" for lbl in label_clean]
         
         # Color palettes matching our theme
         color = [THREAT_RED, GOLD_ACCENT, NAVY_SECONDARY, "teal", "orange", WARM_GRAY,
@@ -1127,9 +1130,9 @@ def plot_arms_flow_sankey(df_transfers):
             val = row['SIPRI_TIV']
             
             # Map labels
-            if sup in label and cat in label:
-                sources.append(label.index(sup))
-                targets.append(label.index(cat))
+            if sup in label_clean and cat in label_clean:
+                sources.append(label_clean.index(sup))
+                targets.append(label_clean.index(cat))
                 values.append(int(val))
                 
         # Category to Destination links
@@ -1137,9 +1140,9 @@ def plot_arms_flow_sankey(df_transfers):
         for _, row in category_sums.iterrows():
             cat = row['Category']
             val = row['SIPRI_TIV']
-            if cat in label:
-                sources.append(label.index(cat))
-                targets.append(label.index("India's Arsenal"))
+            if cat in label_clean:
+                sources.append(label_clean.index(cat))
+                targets.append(label_clean.index("India's Arsenal"))
                 values.append(int(val))
                 
         fig = go.Figure(data=[go.Sankey(
@@ -1147,7 +1150,7 @@ def plot_arms_flow_sankey(df_transfers):
               pad = 22,
               thickness = 12,
               line = dict(color = NAVY_PRIMARY, width = 0.5),
-              label = label,
+              label = label_display,
               color = color
             ),
             link = dict(
@@ -1155,14 +1158,20 @@ def plot_arms_flow_sankey(df_transfers):
               target = targets,
               value = values,
               color = "rgba(108, 117, 125, 0.15)" # Semi-transparent links
-          ))])
+            ),
+            textfont = dict(
+              color = NAVY_PRIMARY,
+              size = 12,
+              family = CHART_FONT_FAMILY
+            )
+          )])
         
         fig.update_layout(
             title={
                 'text': "<b>Arms Procurement Flow Pipeline (Sankey)</b>",
                 'font': {'family': CHART_FONT_FAMILY, 'size': 15, 'color': NAVY_SECONDARY}
             },
-            font=dict(family=CHART_FONT_FAMILY, size=11, color=NAVY_PRIMARY),
+            font=dict(family=CHART_FONT_FAMILY, size=12, color=NAVY_PRIMARY),
             paper_bgcolor='rgba(0,0,0,0)',
             margin=dict(l=20, r=20, t=50, b=20),
             height=380
