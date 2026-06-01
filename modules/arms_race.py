@@ -25,9 +25,10 @@ FLAGS = {
 def render_page(year_range, selected_countries):
     start_yr, end_yr = year_range
     
-    # Title
+    # Dynamic Title based on selection
+    vs_title = " vs ".join(selected_countries)
     render_banner(
-        "Regional Arms Race: India vs China vs Pakistan",
+        f"Regional Arms Race: {vs_title}",
         "25 Years of Strategic Competition in Numbers"
     )
     
