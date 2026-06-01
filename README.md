@@ -1,55 +1,115 @@
 # IndiaShield 🛡️
-India's Strategic Defence Intelligence Platform
+### Strategic Defence Intelligence & Security Analytics Platform
 
-## Live App
-[Link to Streamlit deployment]
+[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B.svg)](https://streamlit.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## What This Project Does
-IndiaShield is a professional-grade strategic intelligence dashboard designed to monitor and analyze India's defence ecosystem. It brings together multi-dimensional datasets covering military expenditures, Union Budget details, regional arms races, supplier-level vulnerabilities, and financial market reactions. By consolidating these disparate datasets, the platform provides policy analysts, defence researchers, and strategic advisors with real-time, interactive insights.
+---
 
-Through interactive visualization pipelines, IndiaShield maps 25 years of spending trends, dissects capital versus revenue budget paradoxes, monitors the widening absolute spending gap in the subcontinent, and evaluates the performance of Indian defence equities during military escalation events.
+## 🔗 Live Deployment
+Deploy live on Streamlit Cloud: **[Insert Your Deployed Streamlit URL Here]**
 
-## The SIDS Metric (Novel Contribution)
-The **Strategic Import Dependency Score (SIDS)** is a novel composite metric developed for IndiaShield that measures India's vulnerability to supply chain disruptions from individual arms suppliers. It compiles concentration, single-source platforms, geopolitical alignment risks, and domestic indigenisation rates.
+---
+
+## 📝 Executive Summary
+**IndiaShield** is a professional-grade strategic intelligence dashboard designed to monitor and analyze India's defence ecosystem. By consolidating disparate datasets—ranging from international arms transfer records to national union budget spreadsheets and stock market indices—the platform provides policy analysts, security researchers, and strategic advisors with real-time, interactive data-driven insights.
+
+Through interactive visualization pipelines, IndiaShield maps 25 years of subcontinent military expenditures, dissects capital-vs-revenue allocation paradoxes, monitors absolute budget gaps between regional powers, and evaluates how domestic defence equities behave as market hedges during geopolitical border escalations.
+
+---
+
+## 🚀 Core Features (Dashboard Modules)
+
+The platform is organized into five functional modules accessible via the sidebar navigation:
+
+1. **🏠 Strategic Overview:** Renders a 24-year spend trajectory of India, dynamic global expenditure choropleths (world map), and five core high-level KPIs representing national ranking, expenditure-to-GDP ratios, and supply-chain risk scores.
+2. **💰 Budget Anatomy:** Visualizes India's Union Budget allocation trends (FY16 to FY25), showing the relationship between Revenue (operational costs) and Capital (modernisation & acquisition) allocations, capital utilisation indices, and DRDO R&D trends.
+3. **⚔️ Regional Arms Race:** Compare timeline trajectories (absolute budgets and % of GDP) dynamically for any combination of regional powers (India, China, Pakistan, USA, etc.) along with 10-year CAGR performance and a dynamic China-India spending gap tracker.
+4. **🎯 Import Vulnerability (SIDS):** Computes India's dependency score against global arms suppliers using a custom mathematical model. Features interactive tabs showing an **Arms Flow Sankey Pipeline** (volume flow from suppliers to weapon categories) and a **Radar Risk Fingerprint** mapping supplier vulnerability profiles. Includes a collapsible **Simulation Sandbox** to model geopolitical shifts.
+5. **📈 Market Intelligence:** Explores 6 Indian defence equities (HAL, BEL, BEML, Mazagon Dock, Cochin Shipyard, Bharat Dynamics) during escalation events (e.g. Galwan, Balakot) using event study cumulative returns, outperformance alpha bar charts, and historical price history overlays.
+
+---
+
+## 🔬 The SIDS Metric Formulation
+The **Strategic Import Dependency Score (SIDS)** is a novel composite metric developed for IndiaShield that measures India's vulnerability to supply chain disruptions from individual arms suppliers:
 
 $$SIDS = \frac{IC}{100} \times SSR \times (1 - GSS) \times \frac{1}{DSC} \times 100$$
 
-*   **Import Concentration (IC):** Percentage of total arms imports from the supplier.
-*   **Single-Source Risk (SSR):** Weighted score reflecting lock-in levels (>60% in a platform category = 1.0, >40% = 0.6, else 0.2).
-*   **Geopolitical Stability Score (GSS):** Measures political reliability (0.0 = high risk/sanctioned, 1.0 = stable ally).
-*   **Domestic Substitution Capacity (DSC):** Speed of replacement (0.0 = irreplaceable, 1.0 = immediate local substitute).
+*   **Import Concentration ($IC$):** The percentage of total arms import volume (TIV) sourced from the supplier.
+*   **Single-Source Risk ($SSR$):** Measures platform dependency. A weighted score reflecting supplier lock-in (having $>60\%$ share in a critical weapon category = $1.0$, $>40\%$ = $0.6$, else $0.2$).
+*   **Geopolitical Stability ($GSS$):** Supplier reliability on a scale of $0.0$ to $1.0$ ($0.0$ = high sanction/embargo risk, $1.0$ = fully integrated ally).
+*   **Substitution Capacity ($DSC$):** Local indigenisation capacity to replace the supplier's technology ($0.1$ = irreplaceable / high-tech lock-in, $1.0$ = immediate domestic replacement).
 
-### SIDS Risk Scale
-*   **0-20:** Low Vulnerability (Green)
-*   **21-40:** Moderate (Yellow)
-*   **41-60:** High (Orange)
-*   **61-80:** Critical (Red)
-*   **81+:** Extreme (Dark Red)
+---
 
-## Data Sources
-| Source | Description | URL |
-| :--- | :--- | :--- |
-| SIPRI Milex Database | Military Expenditure Database (constant USD) | [SIPRI Milex](https://sipri.org/databases/milex) |
-| SIPRI Arms Transfers | Arms Transfers Database (recipient filter: India) | [SIPRI Arms Transfers](https://sipri.org/databases/armstransfers) |
-| Union Budget of India | India's Ministry of Finance Defence budget details | [India Budget](https://www.indiabudget.gov.in/) |
-| Yahoo Finance (NSE) | Daily closing prices for defence stocks (HAL, BEL, BEML, Mazagon Dock) | [Yahoo Finance](https://finance.yahoo.com/) |
+## 📁 Repository Modular Structure
+This project is engineered using a modular, decoupled architecture rather than a single monolithic script:
 
-## Manual Data Setup
-To set up local databases manually:
-1.  **SIPRI Military Expenditure:** Download the Excel dataset from the database URL, go to the sheet "Constant (2022) USD", filter rows for India, China, Pakistan, USA, Russia, France, UK, Israel, Saudi Arabia, Germany, Japan, and Australia, and save years 2000-2024 as `data/raw/sipri_milex.csv`.
-2.  **SIPRI Arms Transfers:** Filter the SIPRI Arms Transfer database for Recipient=India, Years=2000-2024. Export details containing Year, Supplier, Recipient, Armament, and SIPRI_TIV, and save as `data/raw/sipri_arms_transfer.csv`.
-3.  *Note:* The app has high-fidelity fallback libraries compiled into `modules/data_loader.py` and will run seamlessly even if these raw files are missing.
-
-## Run Locally
-To run the Streamlit app on your local system:
-```bash
-pip install -r requirements.txt
-streamlit run app.py
+```
+IndiaShield/
+├── app.py                      # Application entry point & sidebar router
+├── requirements.txt            # Python dependencies
+├── README.md                   # Project documentation
+├── .streamlit/
+│   └── config.toml             # Custom theme configuration (Navy & Gold theme)
+├── data/
+│   ├── raw/                    # Source spreadsheets
+│   │   ├── union_budget.csv    # Union Budget allocation metrics
+│   │   ├── geopolitical_events.csv # Chronology of regional conflicts
+│   │   └── README_data.txt     # Instructions for manual SIPRI downloads
+│   └── processed/              # Formatted long-form CSV caches
+├── utils/
+│   ├── constants.py            # Design tokens, color codes, & constants
+│   ├── styling.py              # CSS injector and custom KPI metric cards
+│   └── charts.py               # Reusable Plotly charting functions
+└── modules/
+    ├── data_loader.py          # Unified data loaders and timezone handlers
+    ├── overview.py             # Page 1 rendering logic
+    ├── budget_analysis.py      # Page 2 rendering logic
+    ├── arms_race.py            # Page 3 rendering logic
+    ├── sids_calculator.py      # Page 4 rendering logic (metric calculations)
+    └── market_intelligence.py  # Page 5 rendering logic
 ```
 
-## Key Findings
-*   **Budget Multiplier:** India's defence spend has grown **5.4×** since 2000 in constant dollars (from $15.9B to $86.1B).
-*   **The Modernisation Paradox:** While total allocation grew, the share of Capital Expenditure (modernisation & acquisition) dropped from **38.3%** in 2015 to **28.9%** in 2024, showing manpower cost pressure.
-*   **Critical Supplier Vulnerability:** Russia remains India's most critical supply-chain risk with a SIDS score of **72 (Critical)** due to active sanctions.
-*   **Geopolitical Stock Hedge:** Defence stocks like HAL and BEL act as market hedges, generating average gains of **23%** in the 30 days following border escalations while the Nifty 50 declines.
-*   **Indigenisation Gain:** Sourcing from domestic defence companies grew from **40%** to **65%** under Make in India between 2014 and 2024.
+---
+
+## 📊 Data & Robust Fallback Architecture
+The application runs on four consolidated data pipelines:
+1. **SIPRI Military Expenditure Database**
+2. **SIPRI Arms Transfers Database (TIV)**
+3. **Ministry of Finance (Union Budget of India)**
+4. **NSE Equities Data (Yahoo Finance)**
+
+> [!TIP]
+> **Production Resilience:** The data loader in `modules/data_loader.py` is equipped with a high-fidelity synthetic fallback generator. If the app is offline or the yfinance API hits rate limits, the loader automatically interpolates historical trends and generates daily pricing arrays to ensure all 5 pages render without crash.
+
+---
+
+## 🛠️ Local Setup & Run
+
+To clone and run this application locally:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/srishti7103/IndiaShield.git
+   cd IndiaShield
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Launch the application:**
+   ```bash
+   streamlit run app.py
+   ```
+
+---
+
+## 💡 Strategic Insights Discovered
+*   **The Modernisation Paradox:** While total allocation grew 5×, the share of Capital Expenditure (modernisation & acquisitions) fell from **38.3%** in 2015 to **28.9%** in 2024, showing that manpower and pensions are squeezing acquisition power.
+*   **Critical Lock-in:** Russia remains India's most critical supply-chain vulnerability with a SIDS score of **72 (Critical)**. Sanctions post-2022 mean spare-parts lifecycles for air fleets ($68\%$ Russian) and tanks ($85\%$ Russian) face severe disruption without accelerated indigenisation.
+*   **Geopolitical Hedge Assets:** Indian defence equities (HAL, BEL) act as market hedges, generating average gains of **+23%** in the 30 days following border escalations while the Nifty 50 Index declines.
+*   **Indigenisation Gain:** Sourcing from domestic defence companies grew from **40%** to **65%** under the Make in India initiative between 2014 and 2024.
