@@ -198,46 +198,46 @@ def render_page(post_2022=True):
     
     render_gold_divider()
     
-    # SIDS Simulation Sandbox
-    from utils.constants import BORDER, GOLD_ACCENT, NAVY_PRIMARY, WARM_GRAY
-    st.write("### 🛠️ SIDS Vulnerability Simulation Sandbox")
-    st.markdown("Interactive sandbox: test adjustments in concentration, alliance changes, or local development to see the immediate effect on SIDS risk.")
-    
-    sim_col1, sim_col2 = st.columns(2)
-    with sim_col1:
-        sim_supplier = st.selectbox("Select Supplier to Simulate:", options=suppliers, index=0)
-        sim_ic = st.slider("Simulated Import Concentration (IC %):", min_value=0.0, max_value=100.0, value=float(sids_data[sim_supplier]["IC"]), step=1.0)
-    with sim_col2:
-        sim_gss = st.slider("Simulated Geopolitical Stability (GSS):", min_value=0.0, max_value=1.0, value=float(sids_data[sim_supplier]["GSS"]), step=0.05, help="0.0 = High risk / Sanctioned, 1.0 = Highly stable ally")
-        sim_dsc = st.slider("Simulated Substitution Capacity (DSC):", min_value=0.1, max_value=1.0, value=float(sids_data[sim_supplier]["DSC"]), step=0.05, help="0.1 = Irreplaceable / High Lock-in, 1.0 = Immediate local replacement")
+    # SIDS Simulation Sandbox inside collapsible container
+    with st.expander("🛠️ SIDS Vulnerability Simulation Sandbox (Interactive Controls)", expanded=False):
+        from utils.constants import BORDER, GOLD_ACCENT, NAVY_PRIMARY, WARM_GRAY
+        st.markdown("Interactive sandbox: test adjustments in concentration, alliance changes, or local development to see the immediate effect on SIDS risk.")
         
-    # SIDS calculation: raw_sids = (IC/100) * SSR * (1 - GSS) * (1/DSC) * 100
-    sim_ssr = sids_data[sim_supplier]["SSR"]
-    sim_raw = (sim_ic / 100.0) * sim_ssr * (1.0 - sim_gss) * (1.0 / sim_dsc) * 100.0
-    sim_final = min(100.0, max(0.0, sim_raw))
-    
-    sim_band, sim_color = get_sids_band(sim_final)
-    actual_score = sids_data[sim_supplier]["final_SIDS"]
-    sim_actual_band, sim_actual_color = get_sids_band(actual_score)
-    
-    comp_col1, comp_col2 = st.columns(2)
-    with comp_col1:
-        st.markdown(f"""
-        <div style="background-color: #EEF2FF; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid {BORDER}; margin-bottom: 20px;">
-            <span style="font-size: 11px; font-weight: 600; color: {WARM_GRAY}; text-transform: uppercase;">Actual SIDS Score</span>
-            <div style="font-size: 32px; font-weight: 800; color: {NAVY_PRIMARY}; margin: 5px 0;">{actual_score:.1f}</div>
-            <span style="background-color: {sim_actual_color}; color: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase;">{sim_actual_band}</span>
-        </div>
-        """, unsafe_allow_html=True)
-    with comp_col2:
-        st.markdown(f"""
-        <div style="background-color: #FFFBEB; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid {GOLD_ACCENT}; margin-bottom: 20px;">
-            <span style="font-size: 11px; font-weight: 600; color: #78350F; text-transform: uppercase;">Simulated SIDS Score</span>
-            <div style="font-size: 32px; font-weight: 800; color: #78350F; margin: 5px 0;">{sim_final:.1f}</div>
-            <span style="background-color: {sim_color}; color: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase;">{sim_band}</span>
-        </div>
-        """, unsafe_allow_html=True)
+        sim_col1, sim_col2 = st.columns(2)
+        with sim_col1:
+            sim_supplier = st.selectbox("Select Supplier to Simulate:", options=suppliers, index=0)
+            sim_ic = st.slider("Simulated Import Concentration (IC %):", min_value=0.0, max_value=100.0, value=float(sids_data[sim_supplier]["IC"]), step=1.0)
+        with sim_col2:
+            sim_gss = st.slider("Simulated Geopolitical Stability (GSS):", min_value=0.0, max_value=1.0, value=float(sids_data[sim_supplier]["GSS"]), step=0.05, help="0.0 = High risk / Sanctioned, 1.0 = Highly stable ally")
+            sim_dsc = st.slider("Simulated Substitution Capacity (DSC):", min_value=0.1, max_value=1.0, value=float(sids_data[sim_supplier]["DSC"]), step=0.05, help="0.1 = Irreplaceable / High Lock-in, 1.0 = Immediate local replacement")
+            
+        # SIDS calculation: raw_sids = (IC/100) * SSR * (1 - GSS) * (1/DSC) * 100
+        sim_ssr = sids_data[sim_supplier]["SSR"]
+        sim_raw = (sim_ic / 100.0) * sim_ssr * (1.0 - sim_gss) * (1.0 / sim_dsc) * 100.0
+        sim_final = min(100.0, max(0.0, sim_raw))
         
+        sim_band, sim_color = get_sids_band(sim_final)
+        actual_score = sids_data[sim_supplier]["final_SIDS"]
+        sim_actual_band, sim_actual_color = get_sids_band(actual_score)
+        
+        comp_col1, comp_col2 = st.columns(2)
+        with comp_col1:
+            st.markdown(f"""
+            <div style="background-color: #EEF2FF; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid {BORDER}; margin-bottom: 20px;">
+                <span style="font-size: 11px; font-weight: 600; color: {WARM_GRAY}; text-transform: uppercase;">Actual SIDS Score</span>
+                <div style="font-size: 32px; font-weight: 800; color: {NAVY_PRIMARY}; margin: 5px 0;">{actual_score:.1f}</div>
+                <span style="background-color: {sim_actual_color}; color: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase;">{sim_actual_band}</span>
+            </div>
+            """, unsafe_allow_html=True)
+        with comp_col2:
+            st.markdown(f"""
+            <div style="background-color: #FFFBEB; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid {GOLD_ACCENT}; margin-bottom: 20px;">
+                <span style="font-size: 11px; font-weight: 600; color: #78350F; text-transform: uppercase;">Simulated SIDS Score</span>
+                <div style="font-size: 32px; font-weight: 800; color: #78350F; margin: 5px 0;">{sim_final:.1f}</div>
+                <span style="background-color: {sim_color}; color: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase;">{sim_band}</span>
+            </div>
+            """, unsafe_allow_html=True)
+            
     render_gold_divider()
     
     # Middle Section - 2 Columns (Tabbed Views)
