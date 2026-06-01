@@ -1148,8 +1148,7 @@ def plot_arms_flow_sankey(df_transfers):
               thickness = 12,
               line = dict(color = NAVY_PRIMARY, width = 0.5),
               label = label,
-              color = color,
-              textfont = dict(color = NAVY_PRIMARY, size = 11, family = CHART_FONT_FAMILY)
+              color = color
             ),
             link = dict(
               source = sources,
@@ -1163,7 +1162,7 @@ def plot_arms_flow_sankey(df_transfers):
                 'text': "<b>Arms Procurement Flow Pipeline (Sankey)</b>",
                 'font': {'family': CHART_FONT_FAMILY, 'size': 15, 'color': NAVY_SECONDARY}
             },
-            font=dict(family=CHART_FONT_FAMILY, size=11),
+            font=dict(family=CHART_FONT_FAMILY, size=11, color=NAVY_PRIMARY),
             paper_bgcolor='rgba(0,0,0,0)',
             margin=dict(l=20, r=20, t=50, b=20),
             height=380
