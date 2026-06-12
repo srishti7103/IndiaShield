@@ -225,7 +225,7 @@ def load_arms_transfers():
     """
     Loads arms transfers. If raw files missing, builds the hardcoded fallback dataset.
     """
-    processed_path = "data/processed/sids_scores.csv"
+    processed_path = "data/processed/arms_transfers.csv"
     raw_path = "data/raw/sipri_arms_transfer.csv"
     
     if os.path.exists(raw_path):

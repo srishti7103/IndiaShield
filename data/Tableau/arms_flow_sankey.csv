@@ -1,0 +1,12 @@
+Supplier,Weapon_Category,TIV_Volume,Share_Pct
+Russia,Aircraft,31.5,70
+Russia,Tanks_AFV,38.25,85
+Russia,Submarines,13.5,30
+Russia,Missiles,22.5,50
+Russia,Ships,11.25,25
+France,Aircraft,6.75,15
+France,Submarines,27.0,60
+USA,Aircraft,4.5,10
+USA,Missiles,4.5,10
+Israel,Missiles,13.5,30
+UK,Aircraft,2.25,5

@@ -531,227 +531,6 @@ def plot_india_china_gap(df_spend):
         print(f"Error plotting gap chart: {e}")
         return go.Figure()
 
-# -------------------------------------------------------------
-# PAGE 4: SIDS VULNERABILITY CHARTS
-# -------------------------------------------------------------
-
-def plot_sids_scoreboard(sids_data):
-    """
-    Horizontal bar chart showing SIDS scores by supplier, colored by risk band.
-    """
-    try:
-        suppliers = list(sids_data.keys())
-        scores = [sids_data[sup]["final_SIDS"] for sup in suppliers]
-        
-        df = pd.DataFrame({"Supplier": suppliers, "SIDS": scores})
-        df = df.sort_values(by="SIDS", ascending=True)
-        
-        # Color mapper matching bands
-        colors = []
-        for s in df["SIDS"]:
-            if s <= 20.0:
-                colors.append("#1B4332") # Low - Green
-            elif s <= 40.0:
-                colors.append("#D9A700") # Mod - Yellow
-            elif s <= 60.0:
-                colors.append("#E65F00") # High - Orange
-            elif s <= 80.0:
-                colors.append("#C1121F") # Crit - Red
-            else:
-                colors.append("#7F1D1D") # Extr - Dark Red
-                
-        fig = go.Figure(go.Bar(
-            x=df["SIDS"],
-            y=df["Supplier"],
-            orientation='h',
-            marker_color=colors,
-            text=df["SIDS"].round(1),
-            textposition='outside'
-        ))
-        
-        # Add vertical bands lines
-        fig.add_vrect(x0=0, x1=20, fillcolor="#1B4332", opacity=0.04, layer="below", line_width=0)
-        fig.add_vrect(x0=20, x1=40, fillcolor="#D9A700", opacity=0.04, layer="below", line_width=0)
-        fig.add_vrect(x0=40, x1=60, fillcolor="#E65F00", opacity=0.04, layer="below", line_width=0)
-        fig.add_vrect(x0=60, x1=80, fillcolor="#C1121F", opacity=0.04, layer="below", line_width=0)
-        fig.add_vrect(x0=80, x1=100, fillcolor="#7F1D1D", opacity=0.04, layer="below", line_width=0)
-        
-        apply_premium_layout(fig, "SIDS Scores by Supplier (0-100 Scale)", "SIDS Score", "Supplier", show_legend=False)
-        fig.update_xaxes(range=[0, 100])
-        return fig
-    except Exception as e:
-        st.warning("Data unavailable for this chart. Please check data/raw/ folder.")
-        print(f"Error plotting SIDS scoreboard: {e}")
-        return go.Figure()
-
-def plot_sids_treemap(df_transfers, sids_data):
-    """
-    Treemap: India's arms imports by supplier x category.
-    Size = import volume (TIV), Color = SIDS score of that supplier.
-    """
-    try:
-        # Sum volume by supplier & category
-        df_group = df_transfers.groupby(['Supplier', 'Category']).agg({'SIPRI_TIV': 'sum'}).reset_index()
-        # Drop "Others" if not in SIDS data or map a generic SIDS
-        df_group['SIDS'] = df_group['Supplier'].map(lambda x: sids_data.get(x, {}).get('final_SIDS', 20.0))
-        
-        fig = px.treemap(
-            df_group,
-            path=['Supplier', 'Category'],
-            values='SIPRI_TIV',
-            color='SIDS',
-            color_continuous_scale=['#1B4332', '#D9A700', '#E65F00', '#C1121F'],
-            color_continuous_midpoint=40,
-            title="India's Arms Procurement Footprint (Supplier × Weapons Category)"
-        )
-        
-        fig.update_layout(
-            font=dict(family=CHART_FONT_FAMILY, size=11),
-            paper_bgcolor='rgba(0,0,0,0)',
-            margin=dict(l=10, r=10, t=50, b=10),
-            height=380
-        )
-        return fig
-    except Exception as e:
-        st.warning("Data unavailable for this chart. Please check data/raw/ folder.")
-        print(f"Error plotting SIDS treemap: {e}")
-        return go.Figure()
-
-def plot_sids_gauge(supplier, score):
-    """
-    Gauge chart for a single supplier's SIDS score.
-    """
-    try:
-        # Determine gauge color
-        if score <= 20.0:
-            color = "#1B4332"
-        elif score <= 40.0:
-            color = "#D9A700"
-        elif score <= 60.0:
-            color = "#E65F00"
-        else:
-            color = "#C1121F"
-            
-        fig = go.Figure(go.Indicator(
-            mode = "gauge+number",
-            value = score,
-            title = {'text': f"<b>{supplier}</b>", 'font': {'color': NAVY_PRIMARY, 'size': 14}},
-            gauge = {
-                'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': WARM_GRAY},
-                'bar': {'color': color},
-                'bgcolor': "white",
-                'borderwidth': 1,
-                'bordercolor': BORDER,
-                'steps': [
-                    {'range': [0, 20], 'color': "rgba(27, 67, 50, 0.05)"},
-                    {'range': [20, 40], 'color': "rgba(217, 167, 0, 0.05)"},
-                    {'range': [40, 60], 'color': "rgba(230, 95, 0, 0.05)"},
-                    {'range': [60, 80], 'color': "rgba(193, 18, 31, 0.05)"},
-                    {'range': [80, 100], 'color': "rgba(127, 29, 29, 0.05)"}
-                ]
-            }
-        ))
-        
-        fig.update_layout(
-            height=200,
-            margin=dict(l=20, r=20, t=40, b=20),
-            paper_bgcolor='rgba(0,0,0,0)'
-        )
-        return fig
-    except Exception as e:
-        st.warning("Data unavailable for this chart. Please check data/raw/ folder.")
-        print(f"Error plotting SIDS gauge for {supplier}: {e}")
-        return go.Figure()
-
-def plot_vulnerability_heatmap():
-    """
-    Platform-Level Import Dependency: Where Are We Most Locked In?
-    Dependency matrix: Weapons Category × Supplier.
-    """
-    try:
-        categories = ['Aircraft', 'Submarines', 'Missiles', 'Tanks/AFV', 'Ships', 'Electronics']
-        suppliers = ['Russia', 'France', 'USA', 'Israel', 'UK']
-        
-        # Hardcoded matrix from Section 3F
-        # Rows = categories, Columns = suppliers
-        matrix = [
-            [70.0, 15.0, 10.0, 0.0, 5.0],  # Aircraft
-            [30.0, 60.0, 0.0, 0.0, 0.0],   # Submarines
-            [50.0, 0.0, 10.0, 30.0, 0.0],  # Missiles
-            [85.0, 0.0, 0.0, 0.0, 0.0],    # Tanks
-            [25.0, 0.0, 0.0, 0.0, 0.0],    # Ships (Domestic is 60%, Russian is 25%)
-            [20.0, 10.0, 20.0, 40.0, 10.0] # Electronics (Simulated)
-        ]
-        
-        fig = px.imshow(
-            matrix,
-            labels=dict(x="Supplier", y="Weapons Platform", color="Share %"),
-            x=suppliers,
-            y=categories,
-            color_continuous_scale=[LIGHT_BG, "#FFEBEB", "#FFA8A8", THREAT_RED, "#7F1D1D"],
-            text_auto=True
-        )
-        
-        apply_premium_layout(fig, "Platform-Level Dependency Heatmap (% supplied)", show_legend=False)
-        return fig
-    except Exception as e:
-        st.warning("Data unavailable for this chart. Please check data/raw/ folder.")
-        print(f"Error plotting heatmap: {e}")
-        return go.Figure()
-
-def plot_russia_sids_trajectory():
-    """
-    Line chart showing Russia's SIDS score trajectory 2000-2024.
-    Score jumps from 55 to 72 post-2022.
-    """
-    try:
-        years = list(range(2000, 2025))
-        scores = []
-        for y in years:
-            if y < 2022:
-                # Pre-2022: steady SIDS around 55
-                scores.append(55.0 + np.sin(y)*0.5)
-            else:
-                # Post-2022: jumps to 72 due to Ukraine War & sanctions
-                scores.append(72.0 + np.sin(y)*0.3)
-                
-        df = pd.DataFrame({"Year": years, "SIDS": scores})
-        
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(
-            x=df['Year'],
-            y=df['SIDS'],
-            mode='lines+markers',
-            line=dict(color=THREAT_RED, width=3),
-            marker=dict(size=6, color=NAVY_PRIMARY),
-            name="Russia SIDS Score"
-        ))
-        
-        # Mark 2022
-        fig.add_vline(x=2022, line_dash="dash", line_color=NAVY_SECONDARY, line_width=2)
-        fig.add_annotation(
-            x=2022,
-            y=68.0,
-            text="Ukraine War & Sanctions",
-            showarrow=True,
-            arrowhead=2,
-            ax=-90,
-            ay=-40,
-            bgcolor="#FFFFFF",
-            bordercolor=BORDER
-        )
-        
-        apply_premium_layout(fig, "Russia SIDS Score Trajectory (2000-2024)", "Year", "SIDS Score")
-        fig.update_yaxes(range=[40, 80])
-        return fig
-    except Exception as e:
-        st.warning("Data unavailable for this chart. Please check data/raw/ folder.")
-        print(f"Error plotting Russia SIDS trajectory: {e}")
-        return go.Figure()
-
-# -------------------------------------------------------------
-# PAGE 5: MARKET INTELLIGENCE CHARTS
-# -------------------------------------------------------------
 
 def plot_stock_event_study(df_stocks, selected_event):
     """
@@ -1011,89 +790,47 @@ def plot_stock_price_history(df_stocks, selected_stock, show_events):
         print(f"Error plotting stock history: {e}")
         return go.Figure()
 
-def plot_supplier_risk_radar(sids_data):
+def plot_arms_import_treemap(df_transfers):
     """
-    Radar chart comparing the risk profiles of top suppliers (Russia, France, USA)
-    across the 4 dimensions of SIDS.
+    Treemap: India arms imports by Supplier x Weapon Category.
+    Size = total SIPRI TIV. Color = Supplier. Coloured by supplier.
     """
     try:
-        categories = ['Import Concentration (IC)', 'Single-Source Risk (SSR)', 
-                      'Geopolitical Risk (1-GSS)', 'Substitution Difficulty (1-DSC)']
-        
-        fig = go.Figure()
-        
-        # Russia
-        r_params = sids_data.get("Russia", {})
-        if r_params:
-            r_ic = r_params["IC"] * 2.0  # Normalized for visual balance (45% -> 90)
-            r_ssr = r_params["SSR"] * 100.0
-            r_gss = (1.0 - r_params["GSS"]) * 100.0
-            r_dsc = (1.0 - r_params["DSC"]) * 100.0
-            fig.add_trace(go.Scatterpolar(
-                r=[r_ic, r_ssr, r_gss, r_dsc, r_ic],
-                theta=categories + [categories[0]],
-                fill='toself',
-                name='Russia (Critical)',
-                line_color=THREAT_RED
-            ))
-            
-        # France
-        f_params = sids_data.get("France", {})
-        if f_params:
-            f_ic = f_params["IC"] * 2.0
-            f_ssr = f_params["SSR"] * 100.0
-            f_gss = (1.0 - f_params["GSS"]) * 100.0
-            f_dsc = (1.0 - f_params["DSC"]) * 100.0
-            fig.add_trace(go.Scatterpolar(
-                r=[f_ic, f_ssr, f_gss, f_dsc, f_ic],
-                theta=categories + [categories[0]],
-                fill='toself',
-                name='France (Low-Moderate)',
-                line_color=GOLD_ACCENT
-            ))
-            
-        # USA
-        u_params = sids_data.get("USA", {})
-        if u_params:
-            u_ic = u_params["IC"] * 2.0
-            u_ssr = u_params["SSR"] * 100.0
-            u_gss = (1.0 - u_params["GSS"]) * 100.0
-            u_dsc = (1.0 - u_params["DSC"]) * 100.0
-            fig.add_trace(go.Scatterpolar(
-                r=[u_ic, u_ssr, u_gss, u_dsc, u_ic],
-                theta=categories + [categories[0]],
-                fill='toself',
-                name='USA (Low)',
-                line_color=NAVY_SECONDARY
-            ))
-            
+        df_group = df_transfers.groupby(['Supplier', 'Category']).agg({'SIPRI_TIV': 'sum'}).reset_index()
+        df_group = df_group[df_group['Supplier'] != 'Others']
+
+        SUPPLIER_COLORS = {
+            "Russia":  "#C1121F",
+            "France":  "#2563EB",
+            "USA":     "#059669",
+            "Israel":  "#7C3AED",
+            "UK":      "#D97706",
+        }
+
+        fig = px.treemap(
+            df_group,
+            path=['Supplier', 'Category'],
+            values='SIPRI_TIV',
+            color='Supplier',
+            color_discrete_map=SUPPLIER_COLORS,
+            title="India Arms Procurement Footprint — Supplier × Weapon Category (SIPRI TIV)"
+        )
+        fig.update_traces(
+            textinfo="label+percent entry",
+            hovertemplate="<b>%{label}</b><br>TIV Volume: %{value:,.0f}<br>Share: %{percentRoot:.1%}<extra></extra>"
+        )
         fig.update_layout(
-            polar=dict(
-                radialaxis=dict(
-                    visible=True,
-                    range=[0, 100],
-                    gridcolor=BORDER
-                ),
-                angularaxis=dict(
-                    gridcolor=BORDER,
-                    tickfont=dict(size=10, color=WARM_GRAY)
-                )
-            ),
-            showlegend=True,
-            title={
-                'text': "<b>Supplier Risk Fingerprints (Radar)</b>",
-                'font': {'family': CHART_FONT_FAMILY, 'size': 15, 'color': NAVY_SECONDARY}
-            },
             font=dict(family=CHART_FONT_FAMILY, size=11),
             paper_bgcolor='rgba(0,0,0,0)',
-            margin=dict(l=100, r=100, t=50, b=40),
-            height=360
+            margin=dict(l=10, r=10, t=50, b=10),
+            height=420
         )
         return fig
     except Exception as e:
-        st.warning("Data unavailable for this chart. Please check data/raw/ folder.")
-        print(f"Error plotting risk radar: {e}")
+        st.warning("Treemap data unavailable.")
+        print(f"Error plotting treemap: {e}")
         return go.Figure()
+
 
 def plot_arms_flow_sankey(df_transfers):
     """

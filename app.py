@@ -33,7 +33,7 @@ navigation_options = [
     "🏠 Strategic Overview",
     "💰 Budget Anatomy",
     "⚔️ Regional Arms Race",
-    "🎯 Import Vulnerability (SIDS)",
+    "🔗 Arms Import Flow",
     "📈 Market Intelligence"
 ]
 
@@ -88,18 +88,6 @@ if page == "💰 Budget Anatomy":
 else:
     selected_fy = "2024-25"
 
-# Geopolitical scenario toggle (for SIDS page)
-if page == "🎯 Import Vulnerability (SIDS)":
-    st.sidebar.subheader("⚖️ Geopolitical Scenario")
-    scenario = st.sidebar.selectbox(
-        "Russia Sanctions Impact:",
-        options=["Post-2022 (Active Sanctions)", "Pre-2022 (Historical baseline)"],
-        index=0
-    )
-    post_2022 = (scenario == "Post-2022 (Active Sanctions)")
-else:
-    post_2022 = True
-
 st.sidebar.markdown('<div style="height: 40px;"></div>', unsafe_allow_html=True)
 
 # Bottom Sidebar Badges
@@ -130,9 +118,9 @@ elif page == "⚔️ Regional Arms Race":
     from modules.arms_race import render_page
     render_page(year_range, selected_countries)
     
-elif page == "🎯 Import Vulnerability (SIDS)":
+elif page == "🔗 Arms Import Flow":
     from modules.sids_calculator import render_page
-    render_page(post_2022=post_2022)
+    render_page()
     
 elif page == "📈 Market Intelligence":
     from modules.market_intelligence import render_page

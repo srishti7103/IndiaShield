@@ -3,7 +3,6 @@ import pandas as pd
 from utils.styling import render_banner, render_kpi_card, render_gold_divider
 from utils.charts import plot_india_spend_journey, plot_global_spend_map
 from modules.data_loader import load_military_expenditure, load_geopolitical_events, load_union_budget
-from modules.sids_calculator import calculate_supplier_sids
 
 def render_page(year_range):
     start_yr, end_yr = year_range
@@ -29,10 +28,8 @@ def render_page(year_range):
     # Card 2: % of GDP
     gdp_pct_2024 = df_spend[(df_spend['Country'] == 'India') & (df_spend['Year'] == 2024)]['Spend_Pct_GDP'].values[0]
     
-    # Card 5: Russia SIDS
-    russia_sids, _ = calculate_supplier_sids("Russia", post_2022=True)
     
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         render_kpi_card(
@@ -70,14 +67,6 @@ def render_page(year_range):
             footer="28.9% goes to modernisation"
         )
         
-    with col5:
-        render_kpi_card(
-            label="SIDS Russia Score",
-            value=f"{russia_sids:.1f}",
-            delta="Critical Vulnerability",
-            delta_direction="down",
-            footer="Highest supply chain risk"
-        )
         
     render_gold_divider()
     
