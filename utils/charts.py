@@ -790,47 +790,23 @@ def plot_stock_price_history(df_stocks, selected_stock, show_events):
         print(f"Error plotting stock history: {e}")
         return go.Figure()
 
+
 def plot_arms_import_treemap(df_transfers):
-    """
-    Treemap: India arms imports by Supplier x Weapon Category.
-    Size = total SIPRI TIV. Color = Supplier. Coloured by supplier.
-    """
+    """Treemap: India arms imports by Supplier x Weapon Category. Size=TIV, Colour=Supplier."""
     try:
-        df_group = df_transfers.groupby(['Supplier', 'Category']).agg({'SIPRI_TIV': 'sum'}).reset_index()
+        df_group = df_transfers.groupby(['Supplier','Category']).agg({'SIPRI_TIV':'sum'}).reset_index()
         df_group = df_group[df_group['Supplier'] != 'Others']
-
-        SUPPLIER_COLORS = {
-            "Russia":  "#C1121F",
-            "France":  "#2563EB",
-            "USA":     "#059669",
-            "Israel":  "#7C3AED",
-            "UK":      "#D97706",
-        }
-
-        fig = px.treemap(
-            df_group,
-            path=['Supplier', 'Category'],
-            values='SIPRI_TIV',
-            color='Supplier',
-            color_discrete_map=SUPPLIER_COLORS,
-            title="India Arms Procurement Footprint — Supplier × Weapon Category (SIPRI TIV)"
-        )
-        fig.update_traces(
-            textinfo="label+percent entry",
-            hovertemplate="<b>%{label}</b><br>TIV Volume: %{value:,.0f}<br>Share: %{percentRoot:.1%}<extra></extra>"
-        )
-        fig.update_layout(
-            font=dict(family=CHART_FONT_FAMILY, size=11),
-            paper_bgcolor='rgba(0,0,0,0)',
-            margin=dict(l=10, r=10, t=50, b=10),
-            height=420
-        )
+        SUPPLIER_COLORS = {"Russia":"#C1121F","France":"#2563EB","USA":"#059669","Israel":"#7C3AED","UK":"#D97706"}
+        fig = px.treemap(df_group, path=['Supplier','Category'], values='SIPRI_TIV',
+                         color='Supplier', color_discrete_map=SUPPLIER_COLORS,
+                         title="India Arms Procurement Footprint — Supplier x Weapon Category (SIPRI TIV)")
+        fig.update_traces(textinfo="label+percent entry",
+            hovertemplate="<b>%{label}</b><br>TIV: %{value:,.0f}<br>Share: %{percentRoot:.1%}<extra></extra>")
+        fig.update_layout(font=dict(family=CHART_FONT_FAMILY,size=11),
+            paper_bgcolor="rgba(0,0,0,0)", margin=dict(l=10,r=10,t=50,b=10), height=420)
         return fig
     except Exception as e:
-        st.warning("Treemap data unavailable.")
-        print(f"Error plotting treemap: {e}")
-        return go.Figure()
-
+        st.warning("Treemap unavailable."); return go.Figure()
 
 def plot_arms_flow_sankey(df_transfers):
     """
@@ -917,4 +893,146 @@ def plot_arms_flow_sankey(df_transfers):
     except Exception as e:
         st.warning("Data unavailable for this chart. Please check data/raw/ folder.")
         print(f"Error plotting arms flow sankey: {e}")
+        return go.Figure()
+
+
+def plot_defence_exports_growth(df_exports):
+    """
+    Bar + line combo: India defence exports FY17-FY25.
+    Bars = INR Cr, line = USD Mn on secondary axis.
+    Annotates key milestones.
+    """
+    try:
+        fig = go.Figure()
+
+        # Bar: INR Cr
+        fig.add_trace(go.Bar(
+            x=df_exports['Year_Label'],
+            y=df_exports['Exports_INR_Cr'],
+            name='Exports (₹ Crore)',
+            marker_color='#C9A84C',
+            opacity=0.85,
+            hovertemplate='<b>%{x}</b><br>₹%{y:,.0f} Crore<extra></extra>'
+        ))
+
+        # Line: USD Mn
+        fig.add_trace(go.Scatter(
+            x=df_exports['Year_Label'],
+            y=df_exports['Exports_USD_Mn'],
+            name='Exports (USD Million)',
+            mode='lines+markers',
+            line=dict(color='#2563EB', width=2.5),
+            marker=dict(size=7),
+            yaxis='y2',
+            hovertemplate='<b>%{x}</b><br>$%{y:,.0f} Mn<extra></extra>'
+        ))
+
+        # Annotate FY24 record
+        fig.add_annotation(
+            x='FY24', y=21083,
+            text="All-time high<br>₹21,083 Cr",
+            showarrow=True, arrowhead=2,
+            ax=0, ay=-50,
+            font=dict(color='#C9A84C', size=10, family=CHART_FONT_FAMILY),
+            arrowcolor='#C9A84C',
+            bgcolor='rgba(13,27,42,0.85)',
+            bordercolor='#C9A84C', borderwidth=1
+        )
+
+        # Annotate FY17 baseline
+        fig.add_annotation(
+            x='FY17', y=1521,
+            text="FY17 baseline<br>₹1,521 Cr",
+            showarrow=True, arrowhead=2,
+            ax=40, ay=-40,
+            font=dict(color='#94A3B8', size=9, family=CHART_FONT_FAMILY),
+            arrowcolor='#94A3B8',
+            bgcolor='rgba(13,27,42,0.85)',
+        )
+
+        fig.update_layout(
+            title=dict(
+                text="India Defence Exports: 14× Growth in 8 Years (FY17–FY25)",
+                font=dict(size=14, color='#1A3A5C', family=CHART_FONT_FAMILY)
+            ),
+            xaxis=dict(title='Financial Year', tickfont=dict(size=10)),
+            yaxis=dict(title='₹ Crore', titlefont=dict(color='#C9A84C'),
+                       tickfont=dict(color='#C9A84C'), gridcolor='rgba(0,0,0,0.06)'),
+            yaxis2=dict(title='USD Million', titlefont=dict(color='#2563EB'),
+                        tickfont=dict(color='#2563EB'), overlaying='y', side='right',
+                        showgrid=False),
+            legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            font=dict(family=CHART_FONT_FAMILY),
+            height=400,
+            margin=dict(l=10, r=10, t=60, b=10),
+            bargap=0.3
+        )
+        return fig
+    except Exception as e:
+        print(f"Exports chart error: {e}")
+        return go.Figure()
+
+
+def plot_exports_import_ratio(df_exports, df_budget):
+    """
+    Line chart: India's defence export-to-import ratio over time.
+    Shows the shift from pure importer toward exporter.
+    """
+    try:
+        # Rough import estimate: capital expenditure as proxy
+        # Map FY labels
+        fy_map = {
+            'FY17': 2016, 'FY18': 2017, 'FY19': 2018, 'FY20': 2019,
+            'FY21': 2020, 'FY22': 2021, 'FY23': 2022, 'FY24': 2023, 'FY25': 2024
+        }
+        df_exports['Year'] = df_exports['Year_Label'].map(fy_map)
+        merged = df_exports.dropna(subset=['Year'])
+
+        # Export as % of total capital budget (rough buy-vs-sell ratio)
+        if 'Capital_INR_Cr' in df_budget.columns:
+            budget_map = dict(zip(df_budget['FY_Year'], df_budget['Capital_INR_Cr']))
+            merged['Capital'] = merged['Year'].map(budget_map)
+            merged['Export_Pct_Capital'] = (merged['Exports_INR_Cr'] / merged['Capital'] * 100).round(1)
+        else:
+            # Fallback: use hardcoded capital figures from MoF
+            capital = {2016:86488, 2017:86523, 2018:99562, 2019:108248,
+                       2020:113734, 2021:135060, 2022:152369, 2023:172000, 2024:176000}
+            merged['Capital'] = merged['Year'].map(capital)
+            merged['Export_Pct_Capital'] = (merged['Exports_INR_Cr'] / merged['Capital'] * 100).round(1)
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=merged['Year_Label'],
+            y=merged['Export_Pct_Capital'],
+            mode='lines+markers+text',
+            text=[f"{v:.1f}%" for v in merged['Export_Pct_Capital']],
+            textposition='top center',
+            textfont=dict(size=9, color='#1A3A5C'),
+            line=dict(color='#059669', width=2.5),
+            marker=dict(size=8, color='#059669'),
+            fill='tozeroy',
+            fillcolor='rgba(5,150,105,0.12)',
+            name='Exports as % of Capital Spend',
+            hovertemplate='<b>%{x}</b><br>Exports = %{y:.1f}% of Capital Budget<extra></extra>'
+        ))
+
+        fig.update_layout(
+            title=dict(
+                text="Defence Exports as % of Capital Expenditure — India's Export Capability Growing",
+                font=dict(size=13, color='#1A3A5C', family=CHART_FONT_FAMILY)
+            ),
+            xaxis_title='Financial Year',
+            yaxis_title='Export / Capital Spend (%)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            font=dict(family=CHART_FONT_FAMILY),
+            height=360,
+            margin=dict(l=10, r=10, t=60, b=10),
+            yaxis=dict(gridcolor='rgba(0,0,0,0.06)')
+        )
+        return fig
+    except Exception as e:
+        print(f"Ratio chart error: {e}")
         return go.Figure()

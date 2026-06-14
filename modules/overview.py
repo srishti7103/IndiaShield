@@ -86,7 +86,7 @@ def render_page(year_range):
             <ul style="padding-left: 18px; margin: 0; color: #0D1B2A; font-size: 13px; line-height: 1.6;">
                 <li style="margin-bottom: 8px;"><b>Spending Growth:</b> India's defence budget has expanded <b>5.4×</b> in constant terms over the last 24 years (from $15.9B to $86.1B).</li>
                 <li style="margin-bottom: 8px;"><b>The Capital Squeeze:</b> Share of budget for capital acquisitions (modernisation) fell from <b>38%</b> to <b>29%</b>, showing manpower and operation costs are squeezing weapons procurement.</li>
-                <li style="margin-bottom: 8px;"><b>Russia Dependency:</b> Russia supplies <b>45%</b> of historical imports. Post-2022 sanctions present a critical risk for platform spares and lifecycle support.</li>
+                <li style="margin-bottom: 8px;"><b>Russia Dependency:</b> Russia supplies <b>63%</b> of India's total arms import volume (SIPRI TIV, 2000–2024). Post-2022 sanctions present a critical risk for spare parts and lifecycle support of Russian-origin platforms.</li>
                 <li style="margin-bottom: 8px;"><b>Stock Sensitivity:</b> Indian defence equities (HAL, BEL) rally an average of <b>23%</b> within 30 days of high-severity regional border escalations.</li>
                 <li style="margin-bottom: 8px;"><b>Indigenisation:</b> Domestic sourcing share of procurement rose from <b>40%</b> in 2014 to <b>65%</b> in 2024 under the 'Make in India' initiative.</li>
             </ul>

@@ -34,7 +34,8 @@ navigation_options = [
     "💰 Budget Anatomy",
     "⚔️ Regional Arms Race",
     "🔗 Arms Import Flow",
-    "📈 Market Intelligence"
+    "📦 Defence Exports",
+        "📈 Market Intelligence"
 ]
 
 page = st.sidebar.radio(
@@ -88,6 +89,7 @@ if page == "💰 Budget Anatomy":
 else:
     selected_fy = "2024-25"
 
+
 st.sidebar.markdown('<div style="height: 40px;"></div>', unsafe_allow_html=True)
 
 # Bottom Sidebar Badges
@@ -110,6 +112,10 @@ if page == "🏠 Strategic Overview":
     from modules.overview import render_page
     render_page(year_range)
     
+elif page == "📦 Defence Exports":
+    from modules.exports_analysis import render_page
+    render_page()
+
 elif page == "💰 Budget Anatomy":
     from modules.budget_analysis import render_page
     render_page(selected_fy)
@@ -122,6 +128,10 @@ elif page == "🔗 Arms Import Flow":
     from modules.sids_calculator import render_page
     render_page()
     
+elif page == "📦 Defence Exports":
+    from modules.exports_analysis import render_page
+    render_page()
+
 elif page == "📈 Market Intelligence":
     from modules.market_intelligence import render_page
     render_page()

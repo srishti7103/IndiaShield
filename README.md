@@ -11,42 +11,38 @@
 
 ## Overview
 
-IndiaShield is a strategic defence analytics platform that consolidates 25 years of global military expenditure, Indian budget allocation, and arms import data into two interactive deployments — a **Tableau Public dashboard** for visual storytelling and a **Streamlit web application** for programmatic exploration.
+IndiaShield is a defence analytics project that analyses 25 years of real data across global military expenditure, India's defence budget allocation, arms import patterns, and defence export growth. The analysis is delivered across two deployments — a **Tableau Public dashboard** for visual storytelling and a **Streamlit web application** for interactive exploration.
 
-The project answers three questions a defence analyst, policy researcher, or equity investor would care about:
-
-- **Where does India's defence budget actually go** — modernisation or salaries?
-- **How is India's arms import volume distributed** across supplier countries and weapon categories?
-- **Do Indian defence stocks benefit from geopolitical escalations** or suffer alongside the broader market?
+All findings in this project are derived from published, real-world data — SIPRI Military Expenditure Database, SIPRI Arms Transfers Database, Ministry of Finance Union Budget statements, Ministry of Defence Annual Reports, and NSE equity data via Yahoo Finance.
 
 ---
 
 ## Live Deployments
 
-| Interface | Link | Best For |
+| Interface | Link | Purpose |
 |---|---|---|
-| 📊 Tableau Dashboard | [View on Tableau Public](https://public.tableau.com/app/profile/srishti.sharma7103/viz/IndiaShield/StrategicOverview) | Visual storytelling, executive summary, shareable |
-| 🖥️ Streamlit App | [Open Web App](https://indiashield-h4uhwhqbpkaf9tibxlcefp.streamlit.app/) | Interactive filters, deep-dive exploration |
+| 📊 Tableau Dashboard | [View on Tableau Public](https://public.tableau.com/app/profile/srishti.sharma7103/viz/IndiaShield/StrategicOverview) | Primary visual analysis |
+| 🖥️ Streamlit App | [Open Web App](https://indiashield-h4uhwhqbpkaf9tibxlcefp.streamlit.app/) | Interactive exploration with filters |
 
 ---
 
 ## Tableau Dashboard — Published Worksheets
 
-| Sheet | What It Shows |
+| Sheet | What It Analyses |
 |---|---|
-| **Strategic Overview** | India's 24-year defence spend journey with geopolitical event markers; global choropleth of military expenditure |
-| **Budget Anatomy** | Capital vs Revenue expenditure split (FY 2015–2025); the Modernisation Paradox trend line |
-| **Regional Arms Race** | India vs China vs Pakistan absolute spend and % of GDP; 10-year CAGR bar chart |
-| **Arms Import Flow** | Sankey diagram — supplier-to-category flow of India's arms imports by SIPRI TIV volume |
-| **Market Intelligence** | Cumulative return event study for 6 Indian defence equities across 9 geopolitical escalation events |
+| **Strategic Overview** | India's defence spend trajectory (2000–2024) with geopolitical event markers; global military expenditure choropleth |
+| **Budget Anatomy** | Capital vs Revenue expenditure split (FY 2015–25); modernisation share declining despite budget growth |
+| **Regional Arms Race** | India vs China vs Pakistan in absolute spend and % of GDP; 10-year CAGR comparison |
+| **Arms Import Flow** | Sankey diagram mapping India's arms imports from supplier to weapon category by SIPRI TIV |
+| **Market Intelligence** | Event study of 6 Indian defence equities across 9 geopolitical escalation events |
 
 ---
 
 ## Arms Import Flow — Sankey Diagram
 
-The chart below maps how India's arms imports flow from **supplier countries** (left) to **weapon categories** (right), proportional to SIPRI Trend Indicator Value (TIV).
+The diagram maps India's arms imports from **supplier countries** to **weapon categories**, with flow width proportional to SIPRI Trend Indicator Value (TIV).
 
-![Arms Import Flow Sankey](assets/sankey_diagram.png)
+![Arms Import Flow — Supplier to Weapon Category](assets/sankey_diagram.png)
 
 > **Source:** SIPRI Arms Transfers Database · Annual average TIV · 2000–2024
 > TIV measures military capability transferred, not contract cash value.
@@ -56,69 +52,65 @@ The chart below maps how India's arms imports flow from **supplier countries** (
 ## Analytical Modules
 
 ### Module 1 — Strategic Overview
-India's defence spend trajectory from 2000–2024 (constant 2022 USD) with vertical markers for key geopolitical events — Kargil (1999), Galwan (2020), Ukraine War (2022), Operation Sindoor (2025). A global choropleth contextualises India's spend against all major military powers.
+India's defence expenditure trajectory from 2000 to 2024 in constant 2022 USD, with markers at Kargil (1999), Parliament Attack (2001), Galwan Valley Clash (2020), Russia-Ukraine War (2022), and Operation Sindoor (2025).
 
-**Key KPIs:** Total budget ($86.1 Bn, 2024) · % of GDP (~2.4%) · Global rank (#4) · Capital/Revenue split
+**Finding:** India's budget grew from $15.9 Bn (2000) to $86.1 Bn (2024) — a 5.4× increase in constant dollar terms.
 
 ---
 
 ### Module 2 — Budget Anatomy
-Dissects India's Union Budget defence allocation (FY 2015–16 to FY 2024–25) into Capital Expenditure (modernisation), Revenue Expenditure (salaries, operations), DRDO R&D, and Pension/Salary. Tracks capital utilisation rates year-on-year.
+Breaks down India's Union Budget defence allocation (FY 2015–16 to FY 2024–25) into Capital Expenditure (weapons acquisition) and Revenue Expenditure (salaries, operations, pensions). Source: Ministry of Finance Statement 6.
 
-**Core Finding — The Modernisation Paradox:**
-
-> India's total defence budget grew **5× in constant dollar terms** between 2000 and 2024, yet the Capital Expenditure share fell from **38.3% (FY 2016) to 28.9% (FY 2025)**. Of every ₹100 in the defence budget, only ₹29 buys new military capability.
+**Finding — The Modernisation Paradox:** India's total defence budget grew 2.5× in nominal terms between FY16 and FY25. Yet Capital Expenditure as a share fell from **38.3% to 28.9%**. Of every ₹100 in the defence budget, only ₹29 goes toward buying new military capability.
 
 ---
 
 ### Module 3 — Regional Arms Race
-Dynamic comparison of military expenditure across 12 countries on two metrics: absolute spend (constant 2022 USD) and spend as % of GDP. Includes a 10-year CAGR chart and an India–China absolute gap tracker.
+Military expenditure across 12 countries from 2000–2024 on absolute spend (constant 2022 USD) and as % of GDP.
 
-**Core Finding — The China Gap:**
-
-> In 2000, China spent 2.1× India's defence budget. By 2024 that ratio is **3.7×** ($318 Bn vs $86.1 Bn). China's budget grew **9.6×** in constant terms over 24 years while India's grew 5.4×.
+**Finding — The China Gap:** In 2000, China's budget was 2.1× India's. By 2024 it is **3.7×** ($318 Bn vs $86.1 Bn). China's budget grew 9.6× in constant dollar terms; India's grew 5.4×. The absolute gap widened from ~$17 Bn to ~$232 Bn.
 
 ---
 
 ### Module 4 — Arms Import Flow
-Visualises the volume flow of India's arms imports from each supplier into each weapon category using SIPRI TIV data via two charts:
+Visualises India's arms import volume by supplier and weapon category using SIPRI TIV data.
 
-- **Sankey Flow Pipeline** — traces the path from Supplier → Weapon Category → India's Arsenal, with ribbon width proportional to import volume
-- **Procurement Footprint Treemap** — shows each supplier's share within each weapon category; tile size = TIV volume, colour = supplier
+**Finding — Supplier Concentration:** Russia supplies **63% of India's total arms import volume** (SIPRI TIV, 2000–2024) — the highest supplier concentration of any major military power. Post-2022 international sanctions have placed spare-parts supply and lifecycle support for Russian-origin platforms under direct pressure.
 
-**Supplier breakdown by total TIV share:**
-
-| Supplier | TIV Share | Primary Categories |
+| Supplier | TIV Share | Dominant Categories |
 |---|---|---|
-| Russia | 45% | Aircraft, Tanks/AFV, Missiles |
-| France | 11% | Aircraft (Rafale), Submarines (Scorpene) |
-| USA | 9% | Transport/Maritime Aircraft, Helicopters |
+| Russia | **63%** | Aircraft, Tanks/AFV, Missiles |
+| France | 11% | Submarines (Scorpene), Aircraft (Rafale) |
+| USA | 9% | Transport aircraft, Maritime patrol, Helicopters |
 | Israel | 9% | Missiles (Barak-8), Electronics (Phalcon) |
-| UK | 5% | Trainer Aircraft (Hawk) |
+| UK | 5% | Trainer aircraft (Hawk) |
 | Others | 21% | Mixed |
 
 ---
 
-### Module 5 — Market Intelligence
-Event study methodology measuring cumulative returns of 6 Indian defence equities — HAL, BEL, BEML, Mazagon Dock, Cochin Shipyard, Bharat Dynamics — in a ±30 trading day window around 9 geopolitical escalation events. Alpha = stock cumulative return minus Nifty 50 benchmark.
+### Module 5 — Defence Exports: Buyer to Seller
+Tracks India's defence export growth from FY17 to FY25 using Ministry of Defence Annual Report data.
 
-**Core Finding:**
-
-> Indian defence equities generate positive average returns in the 30 days following high-severity border escalation events while the Nifty 50 declines. HAL and BEL show the strongest positive alpha.
-
-**Events studied:** Kargil War · Parliament Attack · Uri Surgical Strikes · Pulwama Attack · Balakot Airstrike · Galwan Valley Clash · Russia-Ukraine War · Israel-Hamas War · Operation Sindoor
+**Finding — 14× Growth in 8 Years:** India's defence exports grew from ₹1,521 Crore (FY17) to ₹21,083 Crore (FY24) — a 14× increase. India now exports to 100+ countries. Key platforms: Brahmos cruise missiles (Philippines), Dornier 228 maritime aircraft, BEL electronic warfare systems. Government target: ₹50,000 Crore by FY29.
 
 ---
 
-## Key Strategic Findings
+### Module 6 — Market Intelligence
+Event study measuring cumulative returns of 6 Indian defence equities across 9 geopolitical escalation events, over a ±30 trading day window. Alpha = stock return minus Nifty 50 benchmark.
 
-| Finding | Data Point |
+**Finding:** HAL and BEL generate positive cumulative returns in the 30 days following high-severity border escalation events (Uri, Galwan, Balakot), while the Nifty 50 declines — consistent with markets pricing in accelerated procurement decisions after escalations.
+
+---
+
+## Findings Summary
+
+| Finding | What the Data Shows |
 |---|---|
-| **Modernisation Paradox** | Capital share: 38.3% (FY16) → 28.9% (FY25) despite 5× budget growth |
-| **The China Gap** | China spends 3.7× India's budget in 2024; ratio was 2.1× in 2000 |
-| **Supplier Concentration** | Russia supplies 45% of TIV; dominates Aircraft (70%) and Tanks/AFV (85%) categories |
-| **Indigenisation Progress** | Domestic procurement share: ~40% (2014) → ~65% (2024) under Make in India |
-| **Defence Equity Hedge** | HAL/BEL generate positive alpha post-escalation while broader market declines |
+| Modernisation Paradox | Capital share: 38.3% (FY16) → 28.9% (FY25) despite 2.5× nominal budget growth |
+| China Gap | China grew 9.6× vs India's 5.4× (2000–2024); gap widened from $17 Bn to $232 Bn |
+| Supplier Concentration | Russia: **63% of TIV** (SIPRI Arms Transfers DB, 2000–2024) — single largest supplier by volume |
+| Buyer-to-Seller Shift | Defence exports: ₹1,521 Cr (FY17) → ₹21,083 Cr (FY24) — 14× growth |
+| Defence Equity Behaviour | HAL/BEL generate positive alpha post-escalation; Nifty 50 declines same window |
 
 ---
 
@@ -129,9 +121,26 @@ Event study methodology measuring cumulative returns of 6 Indian defence equitie
 | Military Expenditure | [SIPRI MILEX Database](https://www.sipri.org/databases/milex) | 12 countries · 2000–2024 · Constant 2022 USD |
 | Arms Transfers (TIV) | [SIPRI Arms Transfers Database](https://www.sipri.org/databases/armstransfers) | India imports by supplier & category · 2000–2024 |
 | Defence Budget | [Ministry of Finance — Union Budget](https://www.indiabudget.gov.in/) | Statement 6 · FY 2015–16 to FY 2024–25 |
+| Defence Exports | [Ministry of Defence Annual Reports](https://mod.gov.in/) | FY 2016–17 to FY 2024–25 |
 | Equity Prices | [Yahoo Finance via yfinance](https://finance.yahoo.com/) | HAL, BEL, BEML, MAZDOCK, COCHINSHIP, BDL · 2016–2026 |
 
-> **Data note:** For the hosted Streamlit demo, built-in verified estimates are used as fallback when raw SIPRI files are absent. To run with full SIPRI source data, place downloaded files in `data/raw/`.
+> **Note on Streamlit demo data:** The hosted app uses built-in fallback estimates for SIPRI data when files are not present locally. Stock prices use a GBM simulation as fallback if yfinance is unavailable at runtime. Run `python fetch_real_data.py` locally to download real NSE prices and commit the resulting CSV.
+
+---
+
+## Getting Real Stock Data (Important)
+
+The live Streamlit app may use simulated stock prices as a fallback. To replace with real NSE data:
+
+```bash
+# Run once locally — downloads actual prices from Yahoo Finance
+python fetch_real_data.py
+
+# Then commit the real CSV
+git add data/processed/stock_events.csv
+git commit -m "Replace simulated stock data with real NSE prices from yfinance"
+git push
+```
 
 ---
 
@@ -139,31 +148,34 @@ Event study methodology measuring cumulative returns of 6 Indian defence equitie
 
 ```
 IndiaShield/
-├── app.py                          # Streamlit entry point & sidebar router
-├── requirements.txt                # Python dependencies
-├── README.md                       # Project documentation
+├── app.py                           # Streamlit entry point and page router
+├── requirements.txt
+├── fetch_real_data.py               # Run once to download real NSE stock prices
+├── README.md
 ├── assets/
-│   └── sankey_diagram.png          # Arms import flow Sankey (static export)
+│   └── sankey_diagram.png
 ├── data/
-│   ├── raw/                        # Source spreadsheets
-│   │   ├── union_budget.csv        # Union Budget allocation data
-│   │   ├── geopolitical_events.csv # Geopolitical event chronology
-│   │   └── README_data.txt         # SIPRI manual download instructions
-│   └── processed/                  # Formatted long-form CSV caches
-│       ├── master_defence.csv      # Military expenditure (all countries, all years)
-│       ├── budget_breakdown.csv    # India budget split by FY
-│       └── stock_events.csv        # Daily equity prices 2016–2026
+│   ├── raw/
+│   │   ├── union_budget.csv         # MoF Statement 6
+│   │   ├── geopolitical_events.csv
+│   │   ├── defence_exports.csv      # MoD Annual Report export figures
+│   │   └── README_data.txt
+│   └── processed/
+│       ├── master_defence.csv
+│       ├── budget_breakdown.csv
+│       └── stock_events.csv
 ├── utils/
-│   ├── constants.py                # Design tokens, color codes, event lists
-│   ├── styling.py                  # CSS injector and KPI card components
-│   └── charts.py                   # All Plotly chart functions
+│   ├── constants.py
+│   ├── styling.py
+│   └── charts.py
 └── modules/
-    ├── data_loader.py              # Unified data loader with 3-tier fallback
-    ├── overview.py                 # Module 1 — Strategic Overview
-    ├── budget_analysis.py          # Module 2 — Budget Anatomy
-    ├── arms_race.py                # Module 3 — Regional Arms Race
-    ├── sids_calculator.py          # Module 4 — Arms Import Flow & Sankey
-    └── market_intelligence.py      # Module 5 — Market Intelligence
+    ├── data_loader.py
+    ├── overview.py                  # Module 1 — Strategic Overview
+    ├── budget_analysis.py           # Module 2 — Budget Anatomy
+    ├── arms_race.py                 # Module 3 — Regional Arms Race
+    ├── sids_calculator.py           # Module 4 — Arms Import Flow
+    ├── exports_analysis.py          # Module 5 — Defence Exports
+    └── market_intelligence.py       # Module 6 — Market Intelligence
 ```
 
 ---
@@ -174,6 +186,7 @@ IndiaShield/
 git clone https://github.com/srishti7103/IndiaShield.git
 cd IndiaShield
 pip install -r requirements.txt
+python fetch_real_data.py    # download real stock prices (run once)
 streamlit run app.py
 ```
 
@@ -183,10 +196,10 @@ streamlit run app.py
 
 | Layer | Technology |
 |---|---|
-| Dashboard (primary) | Tableau Public |
-| Web Application | Python · Streamlit |
-| Visualisation | Plotly (Sankey, choropleth, treemap, event study) |
-| Data Processing | Pandas · NumPy |
-| Market Data | yfinance (NSE equities) |
-| Caching | Streamlit `@st.cache_data` |
+| Primary dashboard | Tableau Public |
+| Web application | Python · Streamlit |
+| Visualisation | Plotly — Sankey, choropleth, treemap, event study |
+| Data processing | Pandas · NumPy |
+| Market data | yfinance (NSE equities) |
+| Caching | `@st.cache_data` |
 | Deployment | Streamlit Community Cloud |

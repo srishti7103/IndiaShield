@@ -225,7 +225,7 @@ def load_arms_transfers():
     """
     Loads arms transfers. If raw files missing, builds the hardcoded fallback dataset.
     """
-    processed_path = "data/processed/arms_transfers.csv"
+    processed_path = "data/processed/sids_scores.csv"
     raw_path = "data/raw/sipri_arms_transfer.csv"
     
     if os.path.exists(raw_path):
@@ -429,3 +429,18 @@ def load_stock_prices():
     df_synthetic.to_csv(processed_path, index=False)
     print_safe("⚠️ yfinance failed — using generated synthetic fallback stock prices")
     return df_synthetic
+
+
+@st.cache_data(show_spinner=False)
+def load_defence_exports():
+    """Load India defence exports data (MoD verified figures, FY17-FY25)."""
+    import os
+    raw_path = "data/raw/defence_exports.csv"
+    try:
+        df = pd.read_csv(raw_path)
+        df['Exports_INR_Cr'] = pd.to_numeric(df['Exports_INR_Cr'], errors='coerce')
+        df['Exports_USD_Mn'] = pd.to_numeric(df['Exports_USD_Mn'], errors='coerce')
+        return df
+    except Exception as e:
+        print(f"Warning: Could not load defence exports: {e}")
+        return pd.DataFrame()
