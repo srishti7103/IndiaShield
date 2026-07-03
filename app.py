@@ -125,7 +125,7 @@ elif page == "⚔️ Regional Arms Race":
     render_page(year_range, selected_countries)
     
 elif page == "🔗 Arms Import Flow":
-    from modules.sids_calculator import render_page
+    from modules.arms_import_flow import render_page
     render_page()
     
 elif page == "📦 Defence Exports":

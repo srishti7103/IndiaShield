@@ -173,7 +173,7 @@ IndiaShield/
     ├── overview.py                  # Module 1 — Strategic Overview
     ├── budget_analysis.py           # Module 2 — Budget Anatomy
     ├── arms_race.py                 # Module 3 — Regional Arms Race
-    ├── sids_calculator.py           # Module 4 — Arms Import Flow
+    ├── arms_import_flow.py          # Module 4 — Arms Import Flow
     ├── exports_analysis.py          # Module 5 — Defence Exports
     └── market_intelligence.py       # Module 6 — Market Intelligence
 ```
