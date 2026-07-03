@@ -1,6 +1,8 @@
 # IndiaShield
 ### Strategic Defence Intelligence & Analytics Platform
 
+**Last data refresh: 03 Jul 2026**
+
 [![View on Tableau Public](https://img.shields.io/badge/Tableau-View_Dashboard-E97627?style=for-the-badge&logo=tableau&logoColor=white)](https://public.tableau.com/app/profile/srishti.sharma7103/viz/IndiaShield/StrategicOverview)
 [![Open in Streamlit](https://img.shields.io/badge/Streamlit-Live_App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://indiashield-h4uhwhqbpkaf9tibxlcefp.streamlit.app/)
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
@@ -110,7 +112,7 @@ Event study measuring cumulative returns of 6 Indian defence equities across 9 g
 | China Gap | China grew 9.6× vs India's 5.4× (2000–2024); gap widened from $17 Bn to $232 Bn |
 | Supplier Concentration | Russia: **63% of TIV** (SIPRI Arms Transfers DB, 2000–2024) — single largest supplier by volume |
 | Buyer-to-Seller Shift | Defence exports: ₹1,521 Cr (FY17) → ₹21,083 Cr (FY24) — 14× growth |
-| Defence Equity Behaviour | HAL/BEL generate positive alpha post-escalation; Nifty 50 declines same window |
+| Defence Equity Behaviour | Defence stocks average **17.2%** return post-escalation (**12.8%** Alpha vs Nifty 50) |
 
 ---
 
@@ -124,7 +126,11 @@ Event study measuring cumulative returns of 6 Indian defence equities across 9 g
 | Defence Exports | [Ministry of Defence Annual Reports](https://mod.gov.in/) | FY 2016–17 to FY 2024–25 |
 | Equity Prices | [Yahoo Finance via yfinance](https://finance.yahoo.com/) | HAL, BEL, BEML, MAZDOCK, COCHINSHIP, BDL · 2016–2026 |
 
-> **Note on Streamlit demo data:** The hosted app uses built-in fallback estimates for SIPRI data when files are not present locally. Stock prices use a GBM simulation as fallback if yfinance is unavailable at runtime. Run `python fetch_real_data.py` locally to download real NSE prices and commit the resulting CSV.
+## Data Limitations & Pipeline Fallback Logic
+
+*   **Real-time & Verified**: Union Budget allocations (Union Budget Statements), export figures (MoD Annual Reports), and arms import volumes (SIPRI Database) are verified historical datasets.
+*   **Listing Constraints**: Tickers are excluded from specific event windows prior to their actual IPO/listing dates (e.g. Mazagon Dock, listed on 12 October 2020, is excluded from Balakot in February 2019) to prevent flatline backfilling.
+*   **Pipeline Fallbacks**: The Streamlit application dynamically pulls stock prices via the `yfinance` API. If the API is blocked or offline at runtime, it falls back to a generated geometric Brownian motion (GBM) simulation using historical parameters to keep interactive visualization operational.
 
 ---
 

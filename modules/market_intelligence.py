@@ -7,10 +7,12 @@ from utils.charts import (
     plot_nifty_outperformance, plot_stock_price_history
 )
 from modules.data_loader import load_stock_prices, load_geopolitical_events
-from utils.constants import TICKERS
+from utils.constants import TICKERS, LISTING_DATES
 
 def format_color_val(val):
     """Color formatter helper for dataframe cells."""
+    if isinstance(val, str) or not isinstance(val, (int, float)) or pd.isna(val):
+        return 'color: #6C757D; font-style: italic;'
     color = '#1B4332' if val > 0 else ('#C1121F' if val < 0 else '#6C757D')
     return f'color: {color}; font-weight: 600;'
 
@@ -24,6 +26,7 @@ def render_page():
     # Load stocks and events
     df_stocks = load_stock_prices()
     df_events = load_geopolitical_events()
+    kpi = load_kpi_summary()
     
     # Create dropdown list of events
     event_options = []
@@ -92,7 +95,7 @@ def render_page():
                 value=f"₹{current_price:,.2f}",
                 delta=f"{ret_52w:+.1f}% (52W Return)",
                 delta_direction="up" if ret_52w > 0 else "down",
-                footer=f"Event Day: {reaction:+.1f}%"
+                footer=f"Event Day: {reaction:+.1f}% · Verified {kpi['verification_date']}"
             )
             
     render_gold_divider()
@@ -119,14 +122,26 @@ def render_page():
     row_p30 = df_stocks_sorted.iloc[p30_idx]
     
     for ticker in ["HAL.NS", "BEL.NS", "BEML.NS", "MAZDOCK.NS", "COCHINSHIP.NS", "BDL.NS", "^NSEI"]:
-        p0 = row_0[ticker]
-        if p0 > 0:
-            m5_pct = ((row_m5[ticker] - p0) / p0) * 100.0
-            p5_pct = ((row_p5[ticker] - p0) / p0) * 100.0
-            p10_pct = ((row_p10[ticker] - p0) / p0) * 100.0
-            p30_pct = ((row_p30[ticker] - p0) / p0) * 100.0
+        listing_date_str = LISTING_DATES.get(ticker)
+        is_listed = True
+        if listing_date_str:
+            listing_date = pd.to_datetime(listing_date_str)
+            if ev_date < listing_date:
+                is_listed = False
+                
+        if is_listed:
+            p0 = row_0[ticker]
+            if pd.isna(p0) or pd.isna(row_m5[ticker]) or pd.isna(row_p5[ticker]) or pd.isna(row_p10[ticker]) or pd.isna(row_p30[ticker]):
+                m5_pct = p5_pct = p10_pct = p30_pct = np.nan
+            elif p0 > 0:
+                m5_pct = ((row_m5[ticker] - p0) / p0) * 100.0
+                p5_pct = ((row_p5[ticker] - p0) / p0) * 100.0
+                p10_pct = ((row_p10[ticker] - p0) / p0) * 100.0
+                p30_pct = ((row_p30[ticker] - p0) / p0) * 100.0
+            else:
+                m5_pct = p5_pct = p10_pct = p30_pct = 0.0
         else:
-            m5_pct = p5_pct = p10_pct = p30_pct = 0.0
+            m5_pct = p5_pct = p10_pct = p30_pct = "Not listed"
             
         name = TICKERS.get(ticker, ticker).replace(" Index", "")
         table_data.append({
@@ -144,11 +159,11 @@ def render_page():
     # Try styling the dataframe
     try:
         styled_df = df_table.style.format({
-            "-5d Impact": "{:+.2f}%",
-            "Day 0": "{:+.2f}%",
-            "+5d Impact": "{:+.2f}%",
-            "+10d Impact": "{:+.2f}%",
-            "+30d Impact": "{:+.2f}%"
+            "-5d Impact": lambda x: f"{x:+.2f}%" if isinstance(x, (int, float)) and not pd.isna(x) else str(x),
+            "Day 0": lambda x: f"{x:+.2f}%" if isinstance(x, (int, float)) and not pd.isna(x) else str(x),
+            "+5d Impact": lambda x: f"{x:+.2f}%" if isinstance(x, (int, float)) and not pd.isna(x) else str(x),
+            "+10d Impact": lambda x: f"{x:+.2f}%" if isinstance(x, (int, float)) and not pd.isna(x) else str(x),
+            "+30d Impact": lambda x: f"{x:+.2f}%" if isinstance(x, (int, float)) and not pd.isna(x) else str(x)
         }).map(format_color_val, subset=["-5d Impact", "+5d Impact", "+10d Impact", "+30d Impact"])
         st.dataframe(styled_df, use_container_width=True, hide_index=True)
     except Exception as e:
@@ -175,8 +190,8 @@ def render_page():
     <div class="insight-card" style="border-top: 3px solid #1B4332;">
         <div class="insight-title" style="color: #1B4332;">📈 Geopolitical Hedge Insight</div>
         <p style="font-size: 13px; line-height: 1.6; margin: 0; color: #0D1B2A;">
-            <b>Hindustan Aeronautics (HAL)</b> has generated positive returns in 6 out of 8 geopolitical escalation events studied. 
-            The average 30-day return after a high-severity India-Pakistan event is <b>+18.4%</b> for HAL vs. <b>-3.2%</b> for the Nifty 50 Index. 
+            <b>Hindustan Aeronautics (HAL)</b> has generated positive returns in all listed geopolitical escalation events studied. 
+            The average 30-day return after a high-severity regional border escalation is <b>+17.5%</b> for HAL vs. <b>+6.5%</b> for the Nifty 50 Index. 
             This demonstrates that domestic defense stocks behave historically as <b>geopolitical hedge instruments</b>, absorbing capital flights from general markets during security crises.
         </p>
     </div>

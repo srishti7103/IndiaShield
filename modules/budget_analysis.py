@@ -5,7 +5,7 @@ from utils.charts import (
     plot_budget_stacked_area, plot_budget_donut, 
     plot_capital_utilisation, plot_capital_pct_trend
 )
-from modules.data_loader import load_union_budget
+from modules.data_loader import load_union_budget, load_kpi_summary
 
 def render_page(selected_year):
     # Top Banner
@@ -16,6 +16,7 @@ def render_page(selected_year):
     
     # Load budget data
     df_budget = load_union_budget()
+    kpi = load_kpi_summary()
     
     # Find matching row for KPIs (selected_year is financial year format like '2024-25')
     row = df_budget[df_budget['Year'] == selected_year]
@@ -44,14 +45,14 @@ def render_page(selected_year):
         render_kpi_card(
             label=f"FY {selected_year} Total Budget",
             value=f"₹{total_defence:,.0f} Cr",
-            footer="Total Defence allocation"
+            footer=f"MoF, verified {kpi['verification_date']}"
         )
         
     with col2:
         render_kpi_card(
             label="Modernisation Spend",
             value=f"₹{mod_spend:,.0f} Cr",
-            footer=f"{mod_pct:.1f}% of total budget"
+            footer=f"{mod_pct:.1f}% of budget · Verified {kpi['verification_date']}"
         )
         
     with col3:
@@ -60,7 +61,7 @@ def render_page(selected_year):
             value=f"₹{drdo:,.0f} Cr",
             delta=drdo_delta,
             delta_direction="up" if idx > 0 and drdo_yoy > 0 else "neutral",
-            footer="R&D funding trend"
+            footer=f"MoF, verified {kpi['verification_date']}"
         )
         
     render_gold_divider()
@@ -86,9 +87,9 @@ def render_page(selected_year):
     
     # 4. Bottom Section - Insight Box and Line Chart
     render_amber_callout(
-        "⚠️ <b>The Modernisation Paradox:</b> India's total defence budget has grown 5× since 2015, "
-        "but the share going to actual weapons and platform acquisition (Capital Expenditure) has "
-        "FALLEN from 38% to 29%. Of every ₹100 spent on defence, only ₹29 buys new capability."
+        f"⚠️ <b>The Modernisation Paradox:</b> India's total defence budget has grown 5× since 2015, "
+        f"but the share going to actual weapons and platform acquisition (Capital Expenditure) has "
+        f"FALLEN from 38.3% to {kpi['capital_share']:.1f}%. Of every ₹100 spent on defence, only ₹{kpi['capital_share']:.0f} buys new capability."
     )
     
     fig_trend = plot_capital_pct_trend(df_budget)

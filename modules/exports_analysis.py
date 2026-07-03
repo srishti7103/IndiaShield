@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from utils.styling import render_banner, render_kpi_card, render_gold_divider
 from utils.charts import plot_defence_exports_growth, plot_exports_import_ratio
-from modules.data_loader import load_defence_exports, load_budget_data
+from modules.data_loader import load_defence_exports, load_budget_data, load_kpi_summary
 
 
 def render_page():
@@ -20,35 +20,46 @@ def render_page():
 
     render_gold_divider()
 
+    kpi = load_kpi_summary()
+    latest_exports = df_exports.iloc[-1]
+    prev_exports = df_exports.iloc[-2]
+    latest_val = latest_exports['Exports_INR_Cr']
+    prev_val = prev_exports['Exports_INR_Cr']
+    exports_delta = ((latest_val - prev_val) / prev_val) * 100.0
+
     # ── KPI row ───────────────────────────────────────────────────────────────
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         render_kpi_card(
             label="FY25 Exports",
-            value="₹23,622 Cr",
-            delta="+12% vs FY24",
-            delta_positive=True
+            value=f"₹{latest_val:,.0f} Cr",
+            delta=f"+{exports_delta:.1f}% vs {prev_exports['Year_Label']}",
+            delta_direction="up",
+            footer=f"MoD, verified {kpi['verification_date']}"
         )
     with col2:
         render_kpi_card(
             label="8-Year Growth",
-            value="14×",
-            delta="FY17 → FY25",
-            delta_positive=True
+            value=f"{kpi['defence_exports_growth']}×",
+            delta=f"{df_exports.iloc[0]['Year_Label']} → {latest_exports['Year_Label']}",
+            delta_direction="up",
+            footer=f"MoD, verified {kpi['verification_date']}"
         )
     with col3:
         render_kpi_card(
             label="Export Target",
             value="₹50,000 Cr",
-            delta="by FY29 (MoD)",
-            delta_positive=True
+            delta="by FY29",
+            delta_direction="up",
+            footer=f"MoD Target, verified {kpi['verification_date']}"
         )
     with col4:
         render_kpi_card(
             label="Countries Served",
             value="100+",
             delta="as of FY24",
-            delta_positive=True
+            delta_direction="neutral",
+            footer=f"MoD, verified {kpi['verification_date']}"
         )
 
     render_gold_divider()

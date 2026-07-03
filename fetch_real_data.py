@@ -28,7 +28,7 @@ TICKERS = [
 
 print("Downloading NSE equity data from Yahoo Finance...")
 print(f"Tickers: {TICKERS}")
-print(f"Period : 2016-01-01 → 2026-01-01")
+print("Period : 2016-01-01 -> 2026-01-01")
 print()
 
 df = yf.download(
@@ -39,12 +39,15 @@ df = yf.download(
     progress=True
 )["Close"]
 
-# Forward-fill weekends / holidays
-df = df.ffill().bfill()
+# Per-column forward-fill within trading history (leaving everything before first trading day as NaN)
+for col in df.columns:
+    first_valid = df[col].first_valid_index()
+    if first_valid is not None:
+        df.loc[first_valid:, col] = df.loc[first_valid:, col].ffill()
 df.index.name = "Date"
 
 df.to_csv(OUTPUT)
-print(f"\n✓ Saved {len(df)} rows × {len(df.columns)} columns → {OUTPUT}")
+print(f"\nSaved {len(df)} rows x {len(df.columns)} columns -> {OUTPUT}")
 print("\nColumn check:")
 for col in df.columns:
     non_null = df[col].notna().sum()

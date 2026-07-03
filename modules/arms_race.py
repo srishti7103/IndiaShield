@@ -5,7 +5,7 @@ from utils.charts import (
     plot_arms_race_spend, plot_arms_race_gdp, 
     plot_arms_race_cagr, plot_india_china_gap
 )
-from modules.data_loader import load_military_expenditure
+from modules.data_loader import load_military_expenditure, load_kpi_summary
 
 FLAGS = {
     "India": "🇮🇳",
@@ -34,6 +34,7 @@ def render_page(year_range, selected_countries):
     
     # Load spend data
     df_spend = load_military_expenditure()
+    kpi = load_kpi_summary()
     
     # 1. Comparison KPI Cards
     st.write("### 📊 Selected Countries Profile (2024)")
@@ -52,7 +53,7 @@ def render_page(year_range, selected_countries):
             if not row_2023.empty:
                 prev_budget = row_2023.iloc[0]['Spend_USD_Bn']
                 yoy = ((budget - prev_budget) / prev_budget) * 100.0
-                yoy_text = f"+{yoy:.1f}% YoY"
+                yoy_text = f"{yoy:+.1f}% YoY"
                 direction = "up" if yoy > 0 else "down"
             else:
                 yoy_text = "N/A"
@@ -65,7 +66,7 @@ def render_page(year_range, selected_countries):
                     value=f"${budget:.1f} Bn",
                     delta=f"{gdp_pct:.1f}% of GDP",
                     delta_direction="neutral",
-                    footer=yoy_text
+                    footer=f"{yoy_text} · Verified {kpi['verification_date']}"
                 )
                 
     render_gold_divider()

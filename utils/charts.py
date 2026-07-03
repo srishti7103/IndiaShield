@@ -7,7 +7,7 @@ import streamlit as st
 from utils.constants import (
     NAVY_PRIMARY, NAVY_SECONDARY, GOLD_ACCENT, 
     FOREST_GREEN, THREAT_RED, WARM_GRAY, LIGHT_BG, CARD_BG, BORDER,
-    CHART_FONT_FAMILY
+    CHART_FONT_FAMILY, LISTING_DATES
 )
 
 # -------------------------------------------------------------
@@ -581,9 +581,13 @@ def plot_stock_event_study(df_stocks, selected_event):
         
         # Calculate cumulative returns relative to Day 0
         for ticker in ["HAL.NS", "BEL.NS", "BEML.NS", "MAZDOCK.NS", "COCHINSHIP.NS", "BDL.NS"]:
+            listing_date_str = LISTING_DATES.get(ticker)
+            if listing_date_str:
+                if ev_date < pd.to_datetime(listing_date_str):
+                    continue  # Skip plotting if not listed yet
             base_p = base_prices[ticker]
             # Handle possible zero division
-            if base_p > 0:
+            if pd.notna(base_p) and base_p > 0:
                 cum_ret = ((df_slice[ticker] - base_p) / base_p) * 100.0
                 fig.add_trace(go.Scatter(
                     x=df_slice['Days_From_Event'],
@@ -645,12 +649,16 @@ def plot_all_events_heatmap(df_stocks):
             
             row_data = {"Event": ev["event"]}
             for tick in tickers:
-                base_price = df.loc[closest_idx, tick]
-                post_price = df.loc[end_idx, tick]
-                if base_price > 0:
-                    ret = ((post_price - base_price) / base_price) * 100.0
+                listing_date_str = LISTING_DATES.get(tick)
+                if listing_date_str and ev_date < pd.to_datetime(listing_date_str):
+                    ret = np.nan
                 else:
-                    ret = 0.0
+                    base_price = df.loc[closest_idx, tick]
+                    post_price = df.loc[end_idx, tick]
+                    if pd.notna(base_price) and pd.notna(post_price) and base_price > 0:
+                        ret = ((post_price - base_price) / base_price) * 100.0
+                    else:
+                        ret = np.nan
                 row_data[tick.replace(".NS", "").replace("^", "")] = ret
             data.append(row_data)
             
@@ -692,9 +700,12 @@ def plot_nifty_outperformance(df_stocks):
             def_rets = []
             nifty_ret = 0.0
             for tick in ["HAL.NS", "BEL.NS", "BEML.NS", "MAZDOCK.NS", "COCHINSHIP.NS", "BDL.NS"]:
+                listing_date_str = LISTING_DATES.get(tick)
+                if listing_date_str and ev_date < pd.to_datetime(listing_date_str):
+                    continue  # Skip if not listed yet at event time
                 base = df.loc[closest_idx, tick]
                 val = df.loc[end_idx, tick]
-                if base > 0:
+                if pd.notna(base) and pd.notna(val) and base > 0:
                     def_rets.append(((val - base) / base) * 100.0)
                     
             base_nifty = df.loc[closest_idx, "^NSEI"]

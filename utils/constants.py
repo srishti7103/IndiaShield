@@ -36,6 +36,16 @@ TICKERS = {
     "^NSEI": "Nifty 50 Index"
 }
 
+LISTING_DATES = {
+    "BDL.NS": "2018-03-23",
+    "COCHINSHIP.NS": "2017-08-11",
+    "MAZDOCK.NS": "2020-10-12",
+    "HAL.NS": None,
+    "BEL.NS": None,
+    "BEML.NS": None,
+    "^NSEI": None
+}
+
 # Country classifications
 COUNTRIES_ALL = [
     "India", "China", "Pakistan", "United States", "Russia", 
