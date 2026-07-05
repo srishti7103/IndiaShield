@@ -57,7 +57,7 @@ def render_page():
         render_kpi_card(
             label="Countries Served",
             value="100+",
-            delta="as of FY24",
+            delta="as of FY25",
             delta_direction="neutral",
             footer=f"MoD, verified {kpi['verification_date']}"
         )
