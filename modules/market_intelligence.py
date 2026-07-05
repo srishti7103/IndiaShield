@@ -6,7 +6,7 @@ from utils.charts import (
     plot_stock_event_study, plot_all_events_heatmap, 
     plot_nifty_outperformance, plot_stock_price_history
 )
-from modules.data_loader import load_stock_prices, load_geopolitical_events
+from modules.data_loader import load_stock_prices, load_geopolitical_events, load_kpi_summary
 from utils.constants import TICKERS, LISTING_DATES
 
 def format_color_val(val):
