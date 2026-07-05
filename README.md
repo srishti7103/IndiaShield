@@ -13,7 +13,7 @@
 
 ## Overview
 
-IndiaShield is a defence analytics project that analyses 25 years of real data across global military expenditure, India's defence budget allocation, arms import patterns, and defence export growth. The analysis is delivered across two deployments — a **Tableau Public dashboard** for visual storytelling and a **Streamlit web application** for interactive exploration.
+IndiaShield is a defence analytics project that analyses 25 years of real data across global military expenditure, India's defence budget allocation, arms import patterns, and defence export growth. The analysis is delivered across two deployments - a **Tableau Public dashboard** for visual storytelling and a **Streamlit web application** for interactive exploration.
 
 All findings in this project are derived from published, real-world data — SIPRI Military Expenditure Database, SIPRI Arms Transfers Database, Ministry of Finance Union Budget statements, Ministry of Defence Annual Reports, and NSE equity data via Yahoo Finance.
 
@@ -53,31 +53,31 @@ The diagram maps India's arms imports from **supplier countries** to **weapon ca
 
 ## Analytical Modules
 
-### Module 1 — Strategic Overview
+### Module 1 - Strategic Overview
 India's defence expenditure trajectory from 2000 to 2024 in constant 2022 USD, with markers at Kargil (1999), Parliament Attack (2001), Galwan Valley Clash (2020), Russia-Ukraine War (2022), and Operation Sindoor (2025).
 
 **Finding:** India's budget grew from $15.9 Bn (2000) to $86.1 Bn (2024) — a 5.4× increase in constant dollar terms.
 
 ---
 
-### Module 2 — Budget Anatomy
+### Module 2 - Budget Anatomy
 Breaks down India's Union Budget defence allocation (FY 2015–16 to FY 2024–25) into Capital Expenditure (weapons acquisition) and Revenue Expenditure (salaries, operations, pensions). Source: Ministry of Finance Statement 6.
 
-**Finding — The Modernisation Paradox:** India's total defence budget grew 2.5× in nominal terms between FY16 and FY25. Yet Capital Expenditure as a share fell from **38.3% to 28.9%**. Of every ₹100 in the defence budget, only ₹29 goes toward buying new military capability.
+**Finding - The Modernisation Paradox:** India's total defence budget grew 2.5× in nominal terms between FY16 and FY25. Yet Capital Expenditure as a share fell from **38.3% to 28.9%**. Of every ₹100 in the defence budget, only ₹29 goes toward buying new military capability.
 
 ---
 
-### Module 3 — Regional Arms Race
+### Module 3 - Regional Arms Race
 Military expenditure across 12 countries from 2000–2024 on absolute spend (constant 2022 USD) and as % of GDP.
 
-**Finding — The China Gap:** In 2000, China's budget was 2.1× India's. By 2024 it is **3.7×** ($318 Bn vs $86.1 Bn). China's budget grew 9.6× in constant dollar terms; India's grew 5.4×. The absolute gap widened from ~$17 Bn to ~$232 Bn.
+**Finding - The China Gap:** In 2000, China's budget was 2.1× India's. By 2024 it is **3.7×** ($318 Bn vs $86.1 Bn). China's budget grew 9.6× in constant dollar terms; India's grew 5.4×. The absolute gap widened from ~$17 Bn to ~$232 Bn.
 
 ---
 
-### Module 4 — Arms Import Flow
+### Module 4 - Arms Import Flow
 Visualises India's arms import volume by supplier and weapon category using SIPRI TIV data.
 
-**Finding — Supplier Concentration:** Russia supplies **63% of India's total arms import volume** (SIPRI TIV, 2000–2024) — the highest supplier concentration of any major military power. Post-2022 international sanctions have placed spare-parts supply and lifecycle support for Russian-origin platforms under direct pressure.
+**Finding - Supplier Concentration:** Russia supplies **63% of India's total arms import volume** (SIPRI TIV, 2000–2024) — the highest supplier concentration of any major military power. Post-2022 international sanctions have placed spare-parts supply and lifecycle support for Russian-origin platforms under direct pressure.
 
 | Supplier | TIV Share | Dominant Categories |
 |---|---|---|
@@ -90,14 +90,14 @@ Visualises India's arms import volume by supplier and weapon category using SIPR
 
 ---
 
-### Module 5 — Defence Exports: Buyer to Seller
+### Module 5 - Defence Exports: Buyer to Seller
 Tracks India's defence export growth from FY17 to FY25 using Ministry of Defence Annual Report data.
 
-**Finding — 15.5× Growth in 8 Years:** India's defence exports grew from ₹1,521 Crore (FY17) to ₹23,622 Crore (FY25) — a 15.5× increase. India now exports to 100+ countries. Key platforms: Brahmos cruise missiles (Philippines), Dornier 228 maritime aircraft, BEL electronic warfare systems. Government target: ₹50,000 Crore by FY29.
+**Finding - 15.5× Growth in 8 Years:** India's defence exports grew from ₹1,521 Crore (FY17) to ₹23,622 Crore (FY25) — a 15.5× increase. India now exports to 100+ countries. Key platforms: Brahmos cruise missiles (Philippines), Dornier 228 maritime aircraft, BEL electronic warfare systems. Government target: ₹50,000 Crore by FY29.
 
 ---
 
-### Module 6 — Market Intelligence
+### Module 6 - Market Intelligence
 Event study measuring cumulative returns of 6 Indian defence equities across 9 geopolitical escalation events, over a ±30 trading day window. Alpha = stock return minus Nifty 50 benchmark.
 
 **Finding:** HAL and BEL generate positive cumulative returns in the 30 days following high-severity border escalation events (Uri, Galwan, Balakot), while the Nifty 50 declines — consistent with markets pricing in accelerated procurement decisions after escalations.
