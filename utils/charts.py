@@ -938,10 +938,20 @@ def plot_defence_exports_growth(df_exports):
             hovertemplate='<b>%{x}</b><br>$%{y:,.0f} Mn<extra></extra>'
         ))
 
-        # Annotate FY24 record
+        # Find maximum exports for peak annotation
+        max_row = df_exports.loc[df_exports['Exports_INR_Cr'].idxmax()]
+        max_year = max_row['Year_Label']
+        max_val = max_row['Exports_INR_Cr']
+
+        # Calculate growth multiplier dynamically
+        start_val = df_exports.iloc[0]['Exports_INR_Cr']
+        latest_val = df_exports.iloc[-1]['Exports_INR_Cr']
+        growth_mult = latest_val / start_val
+
+        # Annotate peak record
         fig.add_annotation(
-            x='FY24', y=21083,
-            text="All-time high<br>₹21,083 Cr",
+            x=max_year, y=max_val,
+            text=f"All-time high<br>₹{max_val:,.0f} Cr",
             showarrow=True, arrowhead=2,
             ax=0, ay=-50,
             font=dict(color='#C9A84C', size=10, family=CHART_FONT_FAMILY),
@@ -963,7 +973,7 @@ def plot_defence_exports_growth(df_exports):
 
         fig.update_layout(
             title=dict(
-                text="India Defence Exports: 14× Growth in 8 Years (FY17–FY25)",
+                text=f"India Defence Exports: {growth_mult:.1f}× Growth in {len(df_exports)-1} Years ({df_exports.iloc[0]['Year_Label']}–{df_exports.iloc[-1]['Year_Label']})",
                 font=dict(size=14, color='#1A3A5C', family=CHART_FONT_FAMILY)
             ),
             xaxis=dict(title='Financial Year', tickfont=dict(size=10)),

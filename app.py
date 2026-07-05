@@ -112,10 +112,6 @@ if page == "🏠 Strategic Overview":
     from modules.overview import render_page
     render_page(year_range)
     
-elif page == "📦 Defence Exports":
-    from modules.exports_analysis import render_page
-    render_page()
-
 elif page == "💰 Budget Anatomy":
     from modules.budget_analysis import render_page
     render_page(selected_fy)

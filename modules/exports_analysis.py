@@ -105,17 +105,16 @@ def render_page():
 
     render_gold_divider()
 
-    # ── Insight callout ───────────────────────────────────────────────────────
     st.markdown(
-        """
+        f"""
         <div style="background-color:#1B4332; border-left:4px solid #C9A84C;
                     padding:16px 20px; border-radius:6px;">
             <span style="color:#C9A84C; font-weight:700; font-size:13px;">
                 📌 Finding — The Buyer-to-Seller Transition
             </span>
             <p style="color:#E2E8F0; font-size:13px; margin:8px 0 0 0; line-height:1.6;">
-                India's defence exports grew from <b>₹1,521 Crore in FY17</b> to
-                <b>₹21,083 Crore in FY24</b> — a <b>14× increase in 8 years</b>.
+                India's defence exports grew from <b>₹1,521 Crore in {df_exports.iloc[0]['Year_Label']}</b> to
+                <b>₹{latest_val:,.0f} Crore in {latest_exports['Year_Label']}</b> — a <b>{kpi['defence_exports_growth']}× increase in 8 years</b>.
                 Key export platforms include Brahmos supersonic cruise missiles
                 (Philippines, ₹2,800 Cr contract), Dornier 228 maritime patrol aircraft,
                 Advanced Towed Artillery Guns (ATAG), and electronic warfare systems from BEL.
