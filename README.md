@@ -93,7 +93,7 @@ Visualises India's arms import volume by supplier and weapon category using SIPR
 ### Module 5 — Defence Exports: Buyer to Seller
 Tracks India's defence export growth from FY17 to FY25 using Ministry of Defence Annual Report data.
 
-**Finding — 14× Growth in 8 Years:** India's defence exports grew from ₹1,521 Crore (FY17) to ₹21,083 Crore (FY24) — a 14× increase. India now exports to 100+ countries. Key platforms: Brahmos cruise missiles (Philippines), Dornier 228 maritime aircraft, BEL electronic warfare systems. Government target: ₹50,000 Crore by FY29.
+**Finding — 15.5× Growth in 8 Years:** India's defence exports grew from ₹1,521 Crore (FY17) to ₹23,622 Crore (FY25) — a 15.5× increase. India now exports to 100+ countries. Key platforms: Brahmos cruise missiles (Philippines), Dornier 228 maritime aircraft, BEL electronic warfare systems. Government target: ₹50,000 Crore by FY29.
 
 ---
 
@@ -111,7 +111,7 @@ Event study measuring cumulative returns of 6 Indian defence equities across 9 g
 | Modernisation Paradox | Capital share: 38.3% (FY16) → 28.9% (FY25) despite 2.5× nominal budget growth |
 | China Gap | China grew 9.6× vs India's 5.4× (2000–2024); gap widened from $17 Bn to $232 Bn |
 | Supplier Concentration | Russia: **63% of TIV** (SIPRI Arms Transfers DB, 2000–2024) — single largest supplier by volume |
-| Buyer-to-Seller Shift | Defence exports: ₹1,521 Cr (FY17) → ₹21,083 Cr (FY24) — 14× growth |
+| Buyer-to-Seller Shift | Defence exports: ₹1,521 Cr (FY17) → ₹23,622 Cr (FY25) — 15.5× growth |
 | Defence Equity Behaviour | Defence stocks average **17.2%** return post-escalation (**12.8%** Alpha vs Nifty 50) |
 
 ---
